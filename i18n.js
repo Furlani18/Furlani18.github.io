@@ -1,0 +1,179 @@
+/* =========================================================
+   TRADUÇÕES (PT / EN)
+   Textos fixos da página. Elementos com data-i18n="chave"
+   recebem o texto do idioma atual automaticamente.
+   ========================================================= */
+
+const I18N = {
+  pt: {
+    "meta.title": "Gabriel · Portfólio",
+    "skip": "Pular para o conteúdo",
+    "nav.sobre": "Sobre",
+    "nav.projetos": "Projetos",
+    "nav.trajetoria": "Trajetória",
+    "nav.stack": "Stack",
+    "nav.contato": "Contato",
+    "nav.menu": "Abrir menu",
+    "theme.light": "Ativar tema claro",
+    "theme.dark": "Ativar tema escuro",
+    "lang.switch": "Switch to English",
+
+    "hero.tag": "> olá, mundo_",
+    "hero.title": 'Eu sou <span class="accent">Gabriel</span>,<br>e eu construo',
+    "hero.words": ["sistemas.", "sites.", "jogos.", "APIs.", "bancos de dados."],
+    "hero.subtitle": "Estudante de Análise e Desenvolvimento de Sistemas. Transformo ideias em sistemas, sites e jogos — do banco de dados até a última animação da tela.",
+    "hero.ver": "Ver projetos",
+    "hero.falar": "Falar comigo",
+    "cv": "Baixar currículo",
+    "stats.projetos": "projetos",
+    "stats.techs": "tecnologias",
+    "stats.semNum": "4º",
+    "stats.sem": "semestre ADS",
+
+    "sobre.titulo": "Sobre mim",
+    "sobre.p1": "Estou no 4º semestre de <strong>Análise e Desenvolvimento de Sistemas</strong> e desenvolvo projetos tanto para a faculdade quanto por conta própria. Gosto de entender o sistema inteiro: modelar o banco, escrever o back-end e caprichar no front.",
+    "sobre.p2": "Meus projetos seguem uma arquitetura que venho refinando: camada de dados compartilhada, portais público e administrativo separados, autenticação por sessão e código organizado em arquivos independentes.",
+    "sobre.p3": "Fora dos trabalhos acadêmicos, me divirto criando jogos no navegador e ferramentas ligadas a futebol.",
+    "sobre.code": '<span class="c-key">const</span> gabriel = {\n  curso: <span class="c-str">"ADS"</span>,\n  semestre: <span class="c-num">4</span>,\n  foco: [<span class="c-str">"Full Stack"</span>, <span class="c-str">"Banco de Dados"</span>],\n  curte: [<span class="c-str">"futebol"</span>, <span class="c-str">"games"</span>],\n  disponivel: <span class="c-key">true</span>\n};',
+
+    "proj.titulo": "Projetos",
+    "proj.destaque": "Em destaque",
+    "proj.badge": "★ Destaque",
+    "f.todos": "Todos",
+    "f.sistema": "Sistemas",
+    "f.web": "Sites",
+    "f.esporte": "Futebol",
+    "f.jogo": "Jogos",
+    "busca": "Buscar por nome ou tecnologia...",
+    "vazio": "Nenhum projeto encontrado.",
+    "card.aria": nome => `Ver detalhes de ${nome}`,
+
+    "cat.sistema": "Sistema",
+    "cat.web": "Site",
+    "cat.esporte": "Futebol",
+    "cat.jogo": "Jogo",
+
+    "traj.titulo": "Trajetória",
+    "traj.agora": "agora",
+
+    "stack.titulo": "Stack",
+    "stack.count": n => `${n} projeto${n > 1 ? "s" : ""}`,
+    "stack.filtrar": nome => `Filtrar projetos com ${nome}`,
+
+    "contato.titulo": "Contato",
+    "contato.h": "Vamos construir algo juntos?",
+    "contato.p": "Estou aberto a estágio, freelas e projetos colaborativos. Me mande uma mensagem pelo formulário ou pelos links abaixo.",
+    "form.nome": "Nome",
+    "form.email": "Seu e-mail",
+    "form.msg": "Mensagem",
+    "form.enviar": "Enviar mensagem",
+    "form.enviando": "Enviando...",
+    "form.ok": "Mensagem enviada! Respondo em breve.",
+    "form.erro": "Não foi possível enviar. Tente pelo e-mail ao lado.",
+    "form.mailto": "Abrindo seu app de e-mail...",
+    "form.assunto": nome => `Contato pelo portfólio — ${nome}`,
+
+    "modal.destaques": "Destaques",
+    "modal.demo": "Ver online",
+    "modal.repo": "Código",
+    "modal.link": "Copiar link",
+    "modal.copiado": "Link copiado!",
+    "modal.anterior": "Projeto anterior",
+    "modal.proximo": "Próximo projeto",
+    "modal.fechar": "Fechar",
+    "modal.foto": n => `Ver imagem ${n}`,
+
+    "footer": "feito com HTML, CSS e JS puro",
+
+    "contextos": {}
+  },
+
+  en: {
+    "meta.title": "Gabriel · Portfolio",
+    "skip": "Skip to content",
+    "nav.sobre": "About",
+    "nav.projetos": "Projects",
+    "nav.trajetoria": "Journey",
+    "nav.stack": "Stack",
+    "nav.contato": "Contact",
+    "nav.menu": "Open menu",
+    "theme.light": "Switch to light theme",
+    "theme.dark": "Switch to dark theme",
+    "lang.switch": "Mudar para português",
+
+    "hero.tag": "> hello, world_",
+    "hero.title": 'I\'m <span class="accent">Gabriel</span>,<br>and I build',
+    "hero.words": ["systems.", "websites.", "games.", "APIs.", "databases."],
+    "hero.subtitle": "Systems Analysis and Development student. I turn ideas into systems, websites and games — from the database to the last on-screen animation.",
+    "hero.ver": "See projects",
+    "hero.falar": "Get in touch",
+    "cv": "Download résumé",
+    "stats.projetos": "projects",
+    "stats.techs": "technologies",
+    "stats.semNum": "4th",
+    "stats.sem": "semester (ADS)",
+
+    "sobre.titulo": "About me",
+    "sobre.p1": "I'm in the 4th semester of <strong>Systems Analysis and Development</strong> and I build projects both for college and on my own. I like understanding the whole system: modeling the database, writing the back-end and polishing the front-end.",
+    "sobre.p2": "My projects follow an architecture I keep refining: a shared data layer, separate public and admin portals, session-based authentication and code organized into independent files.",
+    "sobre.p3": "Outside of coursework, I have fun building browser games and football-related tools.",
+    "sobre.code": '<span class="c-key">const</span> gabriel = {\n  degree: <span class="c-str">"ADS"</span>,\n  semester: <span class="c-num">4</span>,\n  focus: [<span class="c-str">"Full Stack"</span>, <span class="c-str">"Databases"</span>],\n  likes: [<span class="c-str">"football"</span>, <span class="c-str">"games"</span>],\n  available: <span class="c-key">true</span>\n};',
+
+    "proj.titulo": "Projects",
+    "proj.destaque": "Featured",
+    "proj.badge": "★ Featured",
+    "f.todos": "All",
+    "f.sistema": "Systems",
+    "f.web": "Websites",
+    "f.esporte": "Football",
+    "f.jogo": "Games",
+    "busca": "Search by name or technology...",
+    "vazio": "No projects found.",
+    "card.aria": nome => `See details of ${nome}`,
+
+    "cat.sistema": "System",
+    "cat.web": "Website",
+    "cat.esporte": "Football",
+    "cat.jogo": "Game",
+
+    "traj.titulo": "Journey",
+    "traj.agora": "now",
+
+    "stack.titulo": "Stack",
+    "stack.count": n => `${n} project${n > 1 ? "s" : ""}`,
+    "stack.filtrar": nome => `Filter projects using ${nome}`,
+
+    "contato.titulo": "Contact",
+    "contato.h": "Let's build something together?",
+    "contato.p": "I'm open to internships, freelance work and collaborative projects. Send me a message through the form or the links below.",
+    "form.nome": "Name",
+    "form.email": "Your email",
+    "form.msg": "Message",
+    "form.enviar": "Send message",
+    "form.enviando": "Sending...",
+    "form.ok": "Message sent! I'll get back to you soon.",
+    "form.erro": "Couldn't send it. Please try the email link instead.",
+    "form.mailto": "Opening your email app...",
+    "form.assunto": nome => `Portfolio contact — ${nome}`,
+
+    "modal.destaques": "Highlights",
+    "modal.demo": "Live demo",
+    "modal.repo": "Source code",
+    "modal.link": "Copy link",
+    "modal.copiado": "Link copied!",
+    "modal.anterior": "Previous project",
+    "modal.proximo": "Next project",
+    "modal.fechar": "Close",
+    "modal.foto": n => `Show image ${n}`,
+
+    "footer": "built with plain HTML, CSS and JS",
+
+    "contextos": {
+      "Acadêmico": "Academic",
+      "Grupo": "Team",
+      "Estudo": "Study",
+      "Pessoal": "Personal",
+      "Portfólio": "Portfolio"
+    }
+  }
+};

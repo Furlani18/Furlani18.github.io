@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gabriel · Portfólio</title>
+  <meta name="description" content="Portfólio de Gabriel — estudante de Análise e Desenvolvimento de Sistemas e desenvolvedor web.">
+  <meta name="theme-color" content="#0b0d10">
+
+  <!-- Ícone -->
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="og-image.png">
+
+  <!-- Preview em redes sociais (troque "seu-usuario.github.io" pelo endereço real do site) -->
+  <link rel="canonical" href="https://seu-usuario.github.io/">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="pt_BR">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:title" content="Gabriel · Portfólio">
+  <meta property="og:description" content="Estudante de ADS. Sistemas, sites e jogos — do banco de dados até a última animação da tela.">
+  <meta property="og:url" content="https://seu-usuario.github.io/">
+  <meta property="og:image" content="https://seu-usuario.github.io/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- Aplica tema salvo antes de pintar a tela (evita "piscar") -->
+  <script>
+    (function () {
+      var tema;
+      try { tema = localStorage.getItem("tema"); } catch (e) {}
+      if (!tema) tema = matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+      document.documentElement.dataset.theme = tema;
+    })();
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <a href="#conteudo" class="skip" data-i18n="skip">Pular para o conteúdo</a>
+
+  <!-- NAVBAR -->
+  <header class="nav" id="nav">
+    <a href="#inicio" class="nav__logo">gabriel<span>.dev</span></a>
+    <div class="nav__right">
+      <nav class="nav__links" id="navLinks">
+        <a href="#sobre" data-i18n="nav.sobre">Sobre</a>
+        <a href="#projetos" data-i18n="nav.projetos">Projetos</a>
+        <a href="#trajetoria" data-i18n="nav.trajetoria">Trajetória</a>
+        <a href="#stack" data-i18n="nav.stack">Stack</a>
+        <a href="#contato" data-i18n="nav.contato">Contato</a>
+      </nav>
+      <div class="nav__tools">
+        <button class="icon-btn mono" id="langToggle" data-i18n-aria="lang.switch" aria-label="Switch to English">EN</button>
+        <button class="icon-btn" id="themeToggle" aria-label="Alternar tema">
+          <svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg>
+          <svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>
+        </button>
+        <button class="nav__toggle" id="navToggle" data-i18n-aria="nav.menu" aria-label="Abrir menu" aria-expanded="false" aria-controls="navLinks">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="conteudo">
+
+  <!-- HERO -->
+  <section class="hero" id="inicio">
+    <div class="hero__grid" aria-hidden="true"></div>
+    <div class="hero__content">
+      <p class="hero__tag mono" data-i18n="hero.tag">&gt; olá, mundo_</p>
+      <h1 class="hero__title">
+        <span data-i18n-html="hero.title">Eu sou <span class="accent">Gabriel</span>,<br>e eu construo</span>
+        <span class="typed" id="typed"></span><span class="cursor" aria-hidden="true">|</span>
+      </h1>
+      <p class="hero__subtitle" data-i18n="hero.subtitle">
+        Estudante de Análise e Desenvolvimento de Sistemas. Transformo ideias em sistemas,
+        sites e jogos — do banco de dados até a última animação da tela.
+      </p>
+      <div class="hero__actions">
+        <a href="#projetos" class="btn btn--primary" data-i18n="hero.ver">Ver projetos</a>
+        <a href="#contato" class="btn btn--ghost" data-i18n="hero.falar">Falar comigo</a>
+        <a href="#" class="btn btn--ghost js-cv" download hidden>
+          <svg class="btn__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 20h16"/></svg>
+          <span data-i18n="cv">Baixar currículo</span>
+        </a>
+      </div>
+      <div class="hero__stats">
+        <div><strong id="statProjetos">0</strong><span data-i18n="stats.projetos">projetos</span></div>
+        <div><strong id="statTechs">0</strong><span data-i18n="stats.techs">tecnologias</span></div>
+        <div><strong data-i18n="stats.semNum">4º</strong><span data-i18n="stats.sem">semestre ADS</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOBRE -->
+  <section class="section" id="sobre">
+    <div class="section__head">
+      <span class="mono section__num">01</span>
+      <h2 data-i18n="sobre.titulo">Sobre mim</h2>
+    </div>
+    <div class="about">
+      <div class="about__text reveal">
+        <p data-i18n-html="sobre.p1"></p>
+        <p data-i18n-html="sobre.p2"></p>
+        <p data-i18n-html="sobre.p3"></p>
+      </div>
+      <div class="about__card reveal">
+        <pre class="mono"><code data-i18n-html="sobre.code"></code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJETOS -->
+  <section class="section" id="projetos">
+    <div class="section__head">
+      <span class="mono section__num">02</span>
+      <h2 data-i18n="proj.titulo">Projetos</h2>
+    </div>
+
+    <div class="featured" id="featuredWrap">
+      <h3 class="featured__title mono" data-i18n="proj.destaque">Em destaque</h3>
+      <div class="featured__grid" id="featuredGrid"></div>
+    </div>
+
+    <div class="toolbar">
+      <div class="filters" id="filters">
+        <button class="filter active" data-filter="todos" data-i18n="f.todos" aria-pressed="true">Todos</button>
+        <button class="filter" data-filter="sistema" data-i18n="f.sistema" aria-pressed="false">Sistemas</button>
+        <button class="filter" data-filter="web" data-i18n="f.web" aria-pressed="false">Sites</button>
+        <button class="filter" data-filter="esporte" data-i18n="f.esporte" aria-pressed="false">Futebol</button>
+        <button class="filter" data-filter="jogo" data-i18n="f.jogo" aria-pressed="false">Jogos</button>
+      </div>
+      <input type="search" id="search" class="search" data-i18n-placeholder="busca" data-i18n-aria="busca" placeholder="Buscar por nome ou tecnologia...">
+    </div>
+
+    <div class="projects" id="projectsGrid"></div>
+    <p class="empty" id="emptyMsg" data-i18n="vazio" hidden>Nenhum projeto encontrado.</p>
+  </section>
+
+  <!-- TRAJETÓRIA -->
+  <section class="section" id="trajetoria">
+    <div class="section__head">
+      <span class="mono section__num">03</span>
+      <h2 data-i18n="traj.titulo">Trajetória</h2>
+    </div>
+    <ol class="timeline" id="timeline"></ol>
+  </section>
+
+  <!-- STACK -->
+  <section class="section" id="stack">
+    <div class="section__head">
+      <span class="mono section__num">04</span>
+      <h2 data-i18n="stack.titulo">Stack</h2>
+    </div>
+    <div class="stack" id="stackGrid"></div>
+  </section>
+
+  <!-- CONTATO -->
+  <section class="section" id="contato">
+    <div class="section__head">
+      <span class="mono section__num">05</span>
+      <h2 data-i18n="contato.titulo">Contato</h2>
+    </div>
+    <div class="contact reveal">
+      <div class="contact__info">
+        <h3 data-i18n="contato.h">Vamos construir algo juntos?</h3>
+        <p data-i18n="contato.p">Estou aberto a estágio, freelas e projetos colaborativos.</p>
+        <div class="contact__links">
+          <a href="#" class="btn btn--primary" id="linkEmail"></a>
+          <a href="#" target="_blank" rel="noopener" class="btn btn--ghost" id="linkGithub">GitHub</a>
+          <a href="#" target="_blank" rel="noopener" class="btn btn--ghost" id="linkLinkedin">LinkedIn</a>
+          <a href="#" class="btn btn--ghost js-cv" download hidden>
+            <svg class="btn__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 20h16"/></svg>
+            <span data-i18n="cv">Baixar currículo</span>
+          </a>
+        </div>
+      </div>
+
+      <form class="form" id="contactForm" novalidate>
+        <label class="form__field">
+          <span data-i18n="form.nome">Nome</span>
+          <input type="text" name="nome" required autocomplete="name">
+        </label>
+        <label class="form__field">
+          <span data-i18n="form.email">Seu e-mail</span>
+          <input type="email" name="email" required autocomplete="email">
+        </label>
+        <label class="form__field">
+          <span data-i18n="form.msg">Mensagem</span>
+          <textarea name="mensagem" rows="5" required></textarea>
+        </label>
+        <button type="submit" class="btn btn--primary" data-i18n="form.enviar">Enviar mensagem</button>
+        <p class="form__status" id="formStatus" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </section>
+
+  </main>
+
+  <footer class="footer mono">
+    <p>© <span id="year"></span> Gabriel · <span data-i18n="footer">feito com HTML, CSS e JS puro</span></p>
+  </footer>
+
+  <!-- MODAL -->
+  <div class="modal" id="modal" aria-hidden="true">
+    <div class="modal__backdrop" data-close></div>
+    <div class="modal__box" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <button class="modal__close" data-close data-i18n-aria="modal.fechar" aria-label="Fechar">×</button>
+      <div class="modal__cover" id="modalCover"></div>
+      <div class="modal__thumbs" id="modalThumbs"></div>
+      <div class="modal__body">
+        <span class="mono modal__cat" id="modalCat"></span>
+        <h3 id="modalTitle"></h3>
+        <p id="modalDesc"></p>
+        <h4 data-i18n="modal.destaques">Destaques</h4>
+        <ul id="modalFeatures"></ul>
+        <div class="tags" id="modalTags"></div>
+        <div class="modal__actions" id="modalActions"></div>
+      </div>
+      <div class="modal__nav">
+        <button class="icon-btn" id="modalPrev" data-i18n-aria="modal.anterior" aria-label="Projeto anterior">←</button>
+        <span class="mono" id="modalPos"></span>
+        <button class="icon-btn" id="modalNext" data-i18n-aria="modal.proximo" aria-label="Próximo projeto">→</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="config.js"></script>
+  <script src="i18n.js"></script>
+  <script src="projetos.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
