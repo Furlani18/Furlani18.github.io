@@ -30,7 +30,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=5">
+  <link rel="stylesheet" href="style.css?v=6">
   <style>
     /* Mostra só o idioma ativo */
     html[data-lang="pt"] [data-l="en"], html[data-lang="en"] [data-l="pt"] { display: none !important; }
@@ -47,7 +47,8 @@
     .case__meta dd { font-weight: 500; }
 
     .case__shot { max-width: 1280px; margin: 1rem auto 0; padding: 0 clamp(1rem, 5vw, 4rem); }
-    .case__shot img { width: 100%; display: block; border-radius: var(--radius); border: 1px solid var(--border); box-shadow: 0 40px 80px -40px color-mix(in srgb, var(--c) 60%, transparent); }
+    .case__shot video { width: 100%; height: auto; background: #000; }
+    .case__shot img, .case__shot video { width: 100%; display: block; border-radius: var(--radius); border: 1px solid var(--border); box-shadow: 0 40px 80px -40px color-mix(in srgb, var(--c) 60%, transparent); }
     .case__shot figcaption, .case__duo figcaption { color: var(--muted); font-size: .82rem; margin-top: .6rem; font-family: var(--mono); }
 
     .case__body { max-width: 860px; }
@@ -122,6 +123,10 @@
         status change. I built the PHP API, took care of account security and automated deployment.
       </p>
 
+      <div class="hero__actions" style="margin: 1.8rem 0 0">
+        <a href="https://gesistec.infinityfree.me" target="_blank" rel="noopener" class="btn btn--primary"><span data-l="pt">Ver o sistema online ↗</span><span data-l="en">See it live ↗</span></a>
+      </div>
+
       <dl class="case__meta">
         <div><dt><span data-l="pt">Papel</span><span data-l="en">Role</span></dt><dd><span data-l="pt">Desenvolvimento full stack</span><span data-l="en">Full-stack development</span></dd></div>
         <div><dt><span data-l="pt">Contexto</span><span data-l="en">Context</span></dt><dd><span data-l="pt">Projeto acadêmico</span><span data-l="en">Academic project</span></dd></div>
@@ -131,8 +136,8 @@
     </section>
 
     <figure class="case__shot">
-      <img src="img/gesistec-1.jpg" alt="Página inicial do site da GESISTEC" width="1280" height="720">
-      <figcaption><span data-l="pt">Site institucional, porta de entrada para o portal de chamados.</span><span data-l="en">Company website, the entry point to the ticket portal.</span></figcaption>
+      <video src="img/gesistec-video.mp4" poster="img/gesistec-video-capa.jpg" controls playsinline preload="metadata" width="1280" height="720"></video>
+      <figcaption><span data-l="pt">Vídeo de apresentação: do primeiro acesso ao chamado resolvido (2min50, com som).</span><span data-l="en">Presentation video: from first login to a resolved ticket (2:50, with sound, in Portuguese).</span></figcaption>
     </figure>
 
     <!-- 01 DESAFIO -->

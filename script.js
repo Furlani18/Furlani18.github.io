@@ -288,6 +288,14 @@ let modalId = null;
 let listaModal = PROJETOS;
 let focoAnterior = null;
 
+let midiasModal = [];
+
+function midiaHTML(pr, m) {
+  if (!m) return capaHTML(pr);
+  if (m.video) return `<video src="${m.video}" ${m.capa ? `poster="${m.capa}"` : ""} controls playsinline preload="metadata"></video>`;
+  return capaHTML(pr, m.src);
+}
+
 function linkDoProjeto(id) {
   return `${location.href.split("#")[0]}#projeto=${id}`;
 }
@@ -300,13 +308,18 @@ function preencherModal(id) {
   // Navega dentro da lista filtrada; se o projeto não estiver nela, usa todos
   listaModal = listaAtual.some(p => p.id === id) ? listaAtual : PROJETOS;
 
-  const imgs = imagensDe(pr);
+  // Galeria: vídeo de apresentação (se houver) seguido dos prints
+  midiasModal = [
+    ...(pr.video ? [{ video: pr.video, capa: pr.videoCapa }] : []),
+    ...imagensDe(pr).map(src => ({ src }))
+  ];
   modal.style.setProperty("--c", pr.cor);
-  $("#modalCover").innerHTML = capaHTML(pr, imgs[0]);
-  $("#modalThumbs").innerHTML = imgs.length > 1
-    ? imgs.map((src, i) => `
-        <button class="thumb${i === 0 ? " active" : ""}" data-src="${src}" aria-label="${t("modal.foto", i + 1)}">
-          <img src="${src}" alt="" loading="lazy">
+  $("#modalCover").innerHTML = midiaHTML(pr, midiasModal[0]);
+  $("#modalThumbs").innerHTML = midiasModal.length > 1
+    ? midiasModal.map((m, i) => `
+        <button class="thumb${i === 0 ? " active" : ""}${m.video ? " thumb--video" : ""}" data-i="${i}"
+          aria-label="${m.video ? t("modal.video") : t("modal.foto", i + 1)}">
+          ${m.video && !m.capa ? "" : `<img src="${m.capa || m.src}" alt="" loading="lazy">`}
         </button>`).join("")
     : "";
 
@@ -351,6 +364,7 @@ function fecharModal(atualizarUrl = true) {
   modal.setAttribute("aria-hidden", "true");
   document.body.style.overflow = "";
   $("#modalCover iframe")?.remove(); // para o jogo (e o som) ao fechar
+  $("#modalCover video")?.pause();
   if (atualizarUrl) history.replaceState(null, "", "#projetos");
 
   // Devolve o foco ao card que abriu o modal (mesmo se ele foi re-renderizado)
@@ -433,7 +447,7 @@ function configurarModal() {
     if (!thumb) return;
     $$(".thumb", modal).forEach(b => b.classList.toggle("active", b === thumb));
     const pr = PROJETOS.find(p => p.id === modalId);
-    $("#modalCover").innerHTML = capaHTML(pr, thumb.dataset.src);
+    $("#modalCover").innerHTML = midiaHTML(pr, midiasModal[thumb.dataset.i]);
   });
 
   $("#modalActions").addEventListener("click", e => {

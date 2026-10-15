@@ -11,6 +11,8 @@
    - preview: vídeo curto (.mp4/.webm) ou .gif que toca ao passar o mouse no card
      (ex: preview: "img/rabisco.mp4" — ideal: 5 a 10 s, sem som, até ~2 MB)
    - caso: página de estudo de caso (ex: "gesistec.html")
+   - video / videoCapa: vídeo de apresentação (com som e controles) + imagem de capa.
+     Vira o primeiro item da galeria do modal.
    - en: tradução para a versão em inglês do site
    ========================================================= */
 
@@ -70,8 +72,10 @@ const PROJETOS = [
       ]
     },
     tecnologias: ["PHP", "MySQL", "JavaScript", "GitHub Actions", "PHPMailer", "Node.js"],
-    imagens: ["img/gesistec-1.jpg", "img/gesistec-2.jpg", "img/gesistec-3.jpg"], repo: "", demo: "",
-    caso: "gesistec.html"
+    imagens: ["img/gesistec-1.jpg", "img/gesistec-2.jpg", "img/gesistec-3.jpg"], repo: "", demo: "https://gesistec.infinityfree.me",
+    caso: "gesistec.html",
+    video: "img/gesistec-video.mp4", videoCapa: "img/gesistec-video-capa.jpg",
+    preview: "img/gesistec-preview.mp4"
   },
   {
     id: "regime-escolar",

@@ -86,6 +86,7 @@ const I18N = {
     "modal.fechar": "Fechar",
     "modal.foto": n => `Ver imagem ${n}`,
     "modal.jogar": "Jogar aqui",
+    "modal.video": "Ver vídeo de apresentação",
     "modal.caso": "Ler estudo de caso",
 
     "nav.github": "GitHub",
@@ -190,6 +191,7 @@ const I18N = {
     "modal.fechar": "Close",
     "modal.foto": n => `Show image ${n}`,
     "modal.jogar": "Play here",
+    "modal.video": "Watch presentation video",
     "modal.caso": "Read case study",
 
     "nav.github": "GitHub",
