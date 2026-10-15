@@ -219,7 +219,7 @@ button { font: inherit; cursor: pointer; }
 .hcard__body strong { font-size: 1rem; }
 .hcard__body small { font-size: .68rem; text-transform: uppercase; letter-spacing: .05em; color: var(--c); }
 .hcard { width: min(240px, 46%); }
-.hcard--1 { top: 2%; left: 0; rotate: -6deg; }
+.hcard--1 { top: 2%; left: 4%; rotate: -6deg; }
 .hcard--2 { top: 30%; right: 0; rotate: 5deg; animation-delay: -2.3s; z-index: 2; }
 .hcard--3 { bottom: 0; left: 16%; rotate: -1deg; animation-delay: -4.6s; }
 @keyframes flutuar { 50% { translate: 0 -14px; } }
