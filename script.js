@@ -54,6 +54,7 @@ function configurarIdioma() {
     renderTrajetoria();
     renderStack();
     if (modal.classList.contains("open")) preencherModal(modalId);
+    document.dispatchEvent(new Event("idiomamudou"));
   });
 }
 
@@ -123,6 +124,25 @@ function capaHTML(pr, src = imagensDe(pr)[0]) {
   return `<span class="cover__mono">${iniciais}</span>`;
 }
 
+// Prévia animada (vídeo .mp4/.webm ou .gif) que aparece ao passar o mouse no card
+function previewHTML(pr) {
+  if (!pr.preview || reduzMovimento) return "";
+  return /\.(mp4|webm)$/i.test(pr.preview)
+    ? `<video class="cover__preview" src="${pr.preview}" muted loop playsinline preload="none"></video>`
+    : `<img class="cover__preview" src="${pr.preview}" alt="" loading="lazy">`;
+}
+
+function configurarPreviews() {
+  $("#projetos").addEventListener("mouseover", e => {
+    const card = e.target.closest(".card");
+    if (card && !card.contains(e.relatedTarget)) card.querySelector("video.cover__preview")?.play().catch(() => {});
+  });
+  $("#projetos").addEventListener("mouseout", e => {
+    const card = e.target.closest(".card");
+    if (card && !card.contains(e.relatedTarget)) card.querySelector("video.cover__preview")?.pause();
+  });
+}
+
 /* ---------- Render dos cards ---------- */
 let filtroAtual = "todos";
 let busca = "";
@@ -138,6 +158,7 @@ function cardHTML(pr, i, tipo = "") {
       data-id="${pr.id}" tabindex="0" role="button" aria-haspopup="dialog" aria-label="${t("card.aria", pr.nome)}">
       <div class="card__cover">
         ${capaHTML(pr)}
+        ${previewHTML(pr)}
         ${tipo ? `<span class="badge mono">${selo}</span>` : ""}
       </div>
       <div class="card__body">
@@ -296,7 +317,9 @@ function preencherModal(id) {
   $("#modalTags").innerHTML = pr.tecnologias.map(tec => `<span class="tag">${tec}</span>`).join("");
 
   const acoes = [];
-  if (pr.demo) acoes.push(`<a class="btn btn--primary" href="${pr.demo}" target="_blank" rel="noopener">${t("modal.demo")}</a>`);
+  if (pr.jogavel && pr.demo) acoes.push(`<button class="btn btn--primary" id="playHere">▶ ${t("modal.jogar")}</button>`);
+  if (pr.caso) acoes.push(`<a class="btn btn--primary" href="${pr.caso}">${t("modal.caso")} →</a>`);
+  if (pr.demo) acoes.push(`<a class="btn ${pr.caso || pr.jogavel ? "btn--ghost" : "btn--primary"}" href="${pr.demo}" target="_blank" rel="noopener">${t("modal.demo")}</a>`);
   if (pr.repo) acoes.push(`<a class="btn btn--ghost" href="${pr.repo}" target="_blank" rel="noopener">${t("modal.repo")}</a>`);
   acoes.push(`<button class="btn btn--ghost" id="copyLink">${t("modal.link")}</button>`);
   $("#modalActions").innerHTML = acoes.join("");
@@ -327,6 +350,7 @@ function fecharModal(atualizarUrl = true) {
   modal.classList.remove("open");
   modal.setAttribute("aria-hidden", "true");
   document.body.style.overflow = "";
+  $("#modalCover iframe")?.remove(); // para o jogo (e o som) ao fechar
   if (atualizarUrl) history.replaceState(null, "", "#projetos");
 
   // Devolve o foco ao card que abriu o modal (mesmo se ele foi re-renderizado)
@@ -356,6 +380,15 @@ async function copiarLink(botao) {
   }
   botao.textContent = t("modal.copiado");
   setTimeout(() => (botao.textContent = t("modal.link")), 2000);
+}
+
+// Carrega a demo do jogo dentro do próprio modal
+function jogarNoModal() {
+  const pr = PROJETOS.find(p => p.id === modalId);
+  $("#modalThumbs").innerHTML = "";
+  $("#modalCover").innerHTML = `<iframe src="${pr.demo}" title="${pr.nome}" allow="fullscreen; autoplay; gamepad" allowfullscreen></iframe>`;
+  $(".modal__box").scrollTop = 0;
+  $("#modalCover iframe").focus();
 }
 
 // Mantém o Tab circulando dentro do modal enquanto ele está aberto
@@ -405,6 +438,7 @@ function configurarModal() {
 
   $("#modalActions").addEventListener("click", e => {
     if (e.target.id === "copyLink") copiarLink(e.target);
+    if (e.target.id === "playHere") jogarNoModal();
   });
 
   document.addEventListener("keydown", e => {
@@ -541,6 +575,7 @@ document.addEventListener("DOMContentLoaded", () => {
   configurarTema();
   configurarFiltros();
   configurarModal();
+  configurarPreviews();
   configurarContato();
   configurarNav();
   observarReveal();

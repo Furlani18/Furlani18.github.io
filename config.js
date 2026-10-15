@@ -15,7 +15,13 @@ const CONFIG = {
   // 1. Crie uma conta grátis em https://formspree.io e um novo form
   // 2. Cole aqui o endpoint (ex: "https://formspree.io/f/abcdwxyz")
   // Vazio = o formulário abre o app de e-mail do visitante já preenchido
-  formspree: ""
+  formspree: "",
+
+  // Contador de visitas (GoatCounter — grátis e sem cookies):
+  // 1. Crie uma conta em https://www.goatcounter.com/signup
+  // 2. Escolha um código (ex: "furlani") e cole aqui
+  // 3. Veja as visitas em https://SEU-CODIGO.goatcounter.com
+  goatcounter: ""
 };
 
 /* ---------- Trajetória (linha do tempo) ----------

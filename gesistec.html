@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GESISTEC · Estudo de caso · Gabriel</title>
+  <meta name="description" content="Estudo de caso do GESISTEC: help desk com API em PHP, segurança de sessão, recuperação de senha e deploy automático.">
+  <meta name="theme-color" content="#0b0d10">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="canonical" href="https://furlani18.github.io/gesistec.html">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="GESISTEC · Estudo de caso">
+  <meta property="og:description" content="Como construí um help desk com API em PHP, sessão segura e deploy automático.">
+  <meta property="og:url" content="https://furlani18.github.io/gesistec.html">
+  <meta property="og:image" content="https://furlani18.github.io/img/gesistec-1.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <script>
+    (function () {
+      var tema, lang;
+      try { tema = localStorage.getItem("tema"); lang = localStorage.getItem("idioma"); } catch (e) {}
+      if (!tema) tema = matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+      if (!lang) lang = (navigator.language || "pt").toLowerCase().indexOf("pt") === 0 ? "pt" : "en";
+      document.documentElement.dataset.theme = tema;
+      document.documentElement.dataset.lang = lang;
+      document.documentElement.lang = lang === "pt" ? "pt-BR" : "en";
+    })();
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=5">
+  <style>
+    /* Mostra só o idioma ativo */
+    html[data-lang="pt"] [data-l="en"], html[data-lang="en"] [data-l="pt"] { display: none !important; }
+
+    .case { --c: #f97316; }
+    .case__hero { padding: 8rem clamp(1rem, 5vw, 4rem) 2rem; max-width: 1280px; margin: 0 auto; }
+    .case__back { display: inline-flex; gap: .5rem; color: var(--muted); font-size: .85rem; margin-bottom: 2rem; }
+    .case__back:hover { color: var(--accent); }
+    .case__tag { color: var(--c); font-size: .8rem; text-transform: uppercase; letter-spacing: .08em; }
+    .case__hero h1 { font-size: clamp(2.6rem, 8vw, 5.5rem); line-height: 1; letter-spacing: -.04em; margin: .4rem 0 1rem; }
+    .case__lead { color: var(--muted); font-size: clamp(1.05rem, 2vw, 1.3rem); max-width: 760px; }
+    .case__meta { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-top: 2.6rem; padding-top: 2rem; border-top: 1px solid var(--border); }
+    .case__meta dt { font-family: var(--mono); font-size: .72rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-bottom: .3rem; }
+    .case__meta dd { font-weight: 500; }
+
+    .case__shot { max-width: 1280px; margin: 1rem auto 0; padding: 0 clamp(1rem, 5vw, 4rem); }
+    .case__shot img { width: 100%; display: block; border-radius: var(--radius); border: 1px solid var(--border); box-shadow: 0 40px 80px -40px color-mix(in srgb, var(--c) 60%, transparent); }
+    .case__shot figcaption, .case__duo figcaption { color: var(--muted); font-size: .82rem; margin-top: .6rem; font-family: var(--mono); }
+
+    .case__body { max-width: 860px; }
+    .case__body > p, .case__body li { color: var(--muted); font-size: 1.05rem; }
+    .case__body > p + p { margin-top: 1rem; }
+    .case__body strong { color: var(--text); }
+    .case__list { list-style: none; display: grid; gap: .7rem; margin-top: 1.2rem; }
+    .case__list li { position: relative; padding-left: 1.6rem; }
+    .case__list li::before { content: "▹"; position: absolute; left: 0; color: var(--c); }
+
+    .case__duo { display: grid; grid-template-columns: 1fr 1fr; gap: 1.4rem; margin-top: 2.4rem; }
+    .case__duo img { width: 100%; display: block; border-radius: var(--radius); border: 1px solid var(--border); }
+
+    /* Diagrama de arquitetura */
+    .arch { display: grid; grid-template-columns: 1fr auto 1fr auto 1fr; gap: .8rem; align-items: center; margin-top: 1.6rem; }
+    .arch__box { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.1rem 1.2rem; }
+    .arch__box b { display: block; margin-bottom: .2rem; }
+    .arch__box span { color: var(--muted); font-size: .85rem; }
+    .arch__box--c { border-color: color-mix(in srgb, var(--c) 60%, var(--border)); }
+    .arch__arrow { font-family: var(--mono); color: var(--muted); font-size: .72rem; text-align: center; }
+    .arch__arrow::before { content: "→"; display: block; font-size: 1.4rem; color: var(--c); }
+    .arch__extra { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: .6rem; margin-top: .4rem; }
+
+    .decisions { display: grid; grid-template-columns: repeat(6, 1fr); gap: 1.2rem; }
+    .decision { grid-column: span 2; }
+    .decision:nth-child(n+4) { grid-column: span 3; } /* 3 em cima, 2 embaixo */
+    @media (max-width: 900px) { .decisions { grid-template-columns: 1fr; } .decision, .decision:nth-child(n+4) { grid-column: auto; } }
+    .decision { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; display: flex; flex-direction: column; gap: .6rem; }
+    .decision__num { font-family: var(--mono); color: var(--c); font-size: .8rem; }
+    .decision h3 { font-size: 1.2rem; letter-spacing: -.01em; }
+    .decision p { color: var(--muted); font-size: .95rem; }
+    .decision p b { color: var(--text); font-weight: 500; }
+
+    .case__cta { text-align: center; }
+    .case__cta .contact__links { justify-content: center; margin-top: 1.6rem; }
+    code.inline { font-family: var(--mono); font-size: .85em; background: var(--bg-2); border: 1px solid var(--border); padding: .05rem .35rem; border-radius: 5px; color: var(--text); }
+
+    @media (max-width: 760px) {
+      .arch { grid-template-columns: 1fr; }
+      .arch__arrow::before { content: "↓"; }
+      .case__duo { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body class="case">
+
+  <header class="nav" id="nav">
+    <a href="index.html" class="nav__logo">gabriel<span>.dev</span></a>
+    <div class="nav__tools">
+      <button class="icon-btn mono" id="langToggle" aria-label="Switch language">EN</button>
+      <button class="icon-btn" id="themeToggle" aria-label="Alternar tema">
+        <svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg>
+        <svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <!-- TOPO -->
+    <section class="case__hero">
+      <a href="index.html#projeto=gesistec" class="case__back mono">
+        ← <span data-l="pt">Voltar ao portfólio</span><span data-l="en">Back to portfolio</span>
+      </a>
+      <p class="case__tag mono"><span data-l="pt">Estudo de caso · Projeto principal</span><span data-l="en">Case study · Main project</span></p>
+      <h1>GESISTEC</h1>
+      <p class="case__lead" data-l="pt">
+        Um help desk completo: clientes de várias empresas abrem chamados, conversam com a equipe e acompanham
+        cada mudança de status. Construí a API em PHP, cuidei da segurança das contas e automatizei o deploy.
+      </p>
+      <p class="case__lead" data-l="en">
+        A complete help desk: customers from multiple companies open tickets, talk to the team and follow every
+        status change. I built the PHP API, took care of account security and automated deployment.
+      </p>
+
+      <dl class="case__meta">
+        <div><dt><span data-l="pt">Papel</span><span data-l="en">Role</span></dt><dd><span data-l="pt">Desenvolvimento full stack</span><span data-l="en">Full-stack development</span></dd></div>
+        <div><dt><span data-l="pt">Contexto</span><span data-l="en">Context</span></dt><dd><span data-l="pt">Projeto acadêmico</span><span data-l="en">Academic project</span></dd></div>
+        <div><dt>Stack</dt><dd>PHP · MySQL · JavaScript</dd></div>
+        <div><dt><span data-l="pt">Hospedagem</span><span data-l="en">Hosting</span></dt><dd>InfinityFree + GitHub Actions</dd></div>
+      </dl>
+    </section>
+
+    <figure class="case__shot">
+      <img src="img/gesistec-1.jpg" alt="Página inicial do site da GESISTEC" width="1280" height="720">
+      <figcaption><span data-l="pt">Site institucional, porta de entrada para o portal de chamados.</span><span data-l="en">Company website, the entry point to the ticket portal.</span></figcaption>
+    </figure>
+
+    <!-- 01 DESAFIO -->
+    <section class="section">
+      <div class="section__head"><span class="mono section__num">01</span><h2><span data-l="pt">O desafio</span><span data-l="en">The challenge</span></h2></div>
+      <div class="case__body">
+        <p data-l="pt">
+          Um help desk só funciona se <strong>ninguém se perde</strong>: o cliente precisa abrir um chamado, conversar com a
+          equipe e saber em que pé está; a equipe precisa priorizar, responder e mudar o status sem que nada fique para trás.
+          E tudo isso para <strong>várias empresas</strong>, cada uma vendo só os próprios chamados.
+        </p>
+        <p data-l="en">
+          A help desk only works if <strong>nothing gets lost</strong>: customers need to open a ticket, talk to the team and
+          know where things stand; the team needs to prioritize, reply and update the status without dropping anything.
+          And all of that for <strong>multiple companies</strong>, each one seeing only its own tickets.
+        </p>
+        <p data-l="pt">
+          Havia ainda uma restrição prática: o sistema precisava rodar numa <strong>hospedagem gratuita</strong>, o InfinityFree,
+          que só executa PHP e MySQL.
+        </p>
+        <p data-l="en">
+          There was also a practical constraint: it had to run on <strong>free hosting</strong> (InfinityFree), which only runs
+          PHP and MySQL.
+        </p>
+      </div>
+    </section>
+
+    <!-- 02 SOLUÇÃO -->
+    <section class="section">
+      <div class="section__head"><span class="mono section__num">02</span><h2><span data-l="pt">A solução</span><span data-l="en">The solution</span></h2></div>
+      <div class="case__body">
+        <ul class="case__list" data-l="pt">
+          <li><strong>Três perfis de acesso:</strong> admin (gerencia empresas, usuários e tipos de chamado), colaborador (atende) e cliente (abre e acompanha).</li>
+          <li><strong>Chamados com conversa:</strong> cada ticket tem mensagens trocadas entre cliente e equipe, além de status e prioridade.</li>
+          <li><strong>Histórico dentro da conversa:</strong> mudanças de status e prioridade aparecem no meio do chat (ex.: “Status alterado para Finalizado”).</li>
+          <li><strong>Conta segura:</strong> “Esqueceu a senha?” com link por e-mail que expira, e bloqueio temporário após muitas tentativas.</li>
+          <li><strong>Site institucional</strong> com formulário de contato, também protegido contra envio em massa.</li>
+        </ul>
+        <ul class="case__list" data-l="en">
+          <li><strong>Three access roles:</strong> admin (manages companies, users and ticket types), staff (handles tickets) and customer (opens and follows them).</li>
+          <li><strong>Tickets as conversations:</strong> each ticket has a message thread between customer and team, plus status and priority.</li>
+          <li><strong>History inside the thread:</strong> status and priority changes show up in the chat (e.g. “Status changed to Closed”).</li>
+          <li><strong>Secure accounts:</strong> “Forgot password?” with an expiring email link, and temporary lockout after too many attempts.</li>
+          <li><strong>Company website</strong> with a contact form, also protected against mass submissions.</li>
+        </ul>
+      </div>
+      <div class="case__duo">
+        <figure>
+          <img src="img/gesistec-2.jpg" alt="Seção de soluções do site da GESISTEC" width="1280" height="720" loading="lazy">
+          <figcaption><span data-l="pt">Seção de soluções do site.</span><span data-l="en">Solutions section of the website.</span></figcaption>
+        </figure>
+        <figure>
+          <img src="img/gesistec-3.jpg" alt="Tela de login do portal GESISTEC" width="1280" height="720" loading="lazy">
+          <figcaption><span data-l="pt">Login do portal, com recuperação de senha.</span><span data-l="en">Portal login, with password recovery.</span></figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- 03 ARQUITETURA -->
+    <section class="section">
+      <div class="section__head"><span class="mono section__num">03</span><h2><span data-l="pt">Arquitetura</span><span data-l="en">Architecture</span></h2></div>
+      <div class="case__body">
+        <p data-l="pt">Front-end e back-end separados: as telas são HTML, CSS e JavaScript puros, que conversam com uma API em PHP por <code class="inline">fetch</code>.</p>
+        <p data-l="en">Front-end and back-end are separate: the screens are plain HTML, CSS and JavaScript that talk to a PHP API via <code class="inline">fetch</code>.</p>
+      </div>
+      <div class="arch" role="img" aria-label="Navegador envia requisições com token para a API PHP, que consulta o MySQL">
+        <div class="arch__box"><b><span data-l="pt">Navegador</span><span data-l="en">Browser</span></b><span><span data-l="pt">Telas do cliente, colaborador e admin</span><span data-l="en">Customer, staff and admin screens</span></span></div>
+        <div class="arch__arrow">X-Session-Token</div>
+        <div class="arch__box arch__box--c"><b>API PHP</b><span><code class="inline">/api/*.php</code> — <span data-l="pt">um endpoint por ação</span><span data-l="en">one endpoint per action</span></span></div>
+        <div class="arch__arrow">prepared statements</div>
+        <div class="arch__box"><b>MySQL</b><span><span data-l="pt">chamados, mensagens, histórico, sessões</span><span data-l="en">tickets, messages, history, sessions</span></span></div>
+        <div class="arch__extra">
+          <span class="tag">PHPMailer (SMTP)</span>
+          <span class="tag">GitHub Actions → FTP → InfinityFree</span>
+          <span class="tag">config.secrets.php <span data-l="pt">fora do Git</span><span data-l="en">kept out of Git</span></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 04 DECISÕES -->
+    <section class="section">
+      <div class="section__head"><span class="mono section__num">04</span><h2><span data-l="pt">Desafios e decisões</span><span data-l="en">Challenges and decisions</span></h2></div>
+      <div class="decisions">
+        <article class="decision">
+          <span class="decision__num">01</span>
+          <h3><span data-l="pt">De Node.js para PHP</span><span data-l="en">From Node.js to PHP</span></h3>
+          <p data-l="pt">A primeira versão rodava em <b>Node.js/Express</b>, mas o InfinityFree não executa Node. Em vez de trocar de hospedagem, <b>reescrevi o servidor como uma API em PHP</b>, endpoint por endpoint, mantendo o front-end funcionando.</p>
+          <p data-l="en">The first version ran on <b>Node.js/Express</b>, but InfinityFree can't run Node. Instead of switching hosts, I <b>rewrote the server as a PHP API</b>, endpoint by endpoint, keeping the front-end working.</p>
+        </article>
+        <article class="decision">
+          <span class="decision__num">02</span>
+          <h3><span data-l="pt">Descrições que sumiam</span><span data-l="en">Disappearing descriptions</span></h3>
+          <p data-l="pt">Os campos de descrição dos chamados não eram salvos corretamente. Segui o dado <b>do formulário até o banco</b> e corrigi o problema nas duas pontas, no front e no back-end.</p>
+          <p data-l="en">Ticket description fields weren't being saved correctly. I traced the data <b>from the form to the database</b> and fixed the issue on both ends, front-end and back-end.</p>
+        </article>
+        <article class="decision">
+          <span class="decision__num">03</span>
+          <h3><span data-l="pt">Sessão segura</span><span data-l="en">Secure sessions</span></h3>
+          <p data-l="pt">O login gera um token que vai no header <b>X-Session-Token</b>. O banco guarda <b>só o hash SHA-256</b> dele, com data de expiração, e os endpoints protegidos conferem o perfil do usuário antes de agir.</p>
+          <p data-l="en">Login issues a token sent in the <b>X-Session-Token</b> header. The database stores <b>only its SHA-256 hash</b>, with an expiry date, and protected endpoints check the user's role before acting.</p>
+        </article>
+        <article class="decision">
+          <span class="decision__num">04</span>
+          <h3><span data-l="pt">Contra força bruta</span><span data-l="en">Against brute force</span></h3>
+          <p data-l="pt">Uma tabela registra tentativas de <b>login, recuperação de senha e contato</b> por e-mail e por IP. Passou do limite na janela de tempo, bloqueia até esfriar.</p>
+          <p data-l="en">A table records <b>login, password-reset and contact</b> attempts by email and IP. Exceed the limit within the time window and you're blocked until it cools down.</p>
+        </article>
+        <article class="decision">
+          <span class="decision__num">05</span>
+          <h3><span data-l="pt">Deploy em um push</span><span data-l="en">Deploy on push</span></h3>
+          <p data-l="pt">Um workflow do <b>GitHub Actions</b> envia o site por FTP a cada push na <code class="inline">main</code>, ignorando arquivos <code class="inline">.sql</code> e de credenciais. Nada de subir arquivo na mão.</p>
+          <p data-l="en">A <b>GitHub Actions</b> workflow uploads the site over FTP on every push to <code class="inline">main</code>, skipping <code class="inline">.sql</code> and credential files. No more manual uploads.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- 05 APRENDIZADOS -->
+    <section class="section">
+      <div class="section__head"><span class="mono section__num">05</span><h2><span data-l="pt">O que aprendi</span><span data-l="en">What I learned</span></h2></div>
+      <div class="case__body">
+        <ul class="case__list" data-l="pt">
+          <li>Restrição de infraestrutura muda arquitetura, e reescrever com cuidado pode sair mais barato que trocar de ferramenta.</li>
+          <li>Segurança não é um recurso extra: hash de token, expiração, limite de tentativas e segredos fora do Git custam pouco no começo.</li>
+          <li>Automatizar o deploy elimina toda uma categoria de erro (“esqueci de subir aquele arquivo”).</li>
+          <li>Bug de persistência se resolve seguindo o dado de ponta a ponta, não chutando onde está o problema.</li>
+        </ul>
+        <ul class="case__list" data-l="en">
+          <li>Infrastructure constraints shape architecture, and a careful rewrite can be cheaper than switching tools.</li>
+          <li>Security isn't an add-on: token hashing, expiry, rate limiting and secrets out of Git cost little up front.</li>
+          <li>Automating deployment removes a whole class of mistakes (“I forgot to upload that file”).</li>
+          <li>Persistence bugs are solved by following the data end to end, not by guessing where the problem is.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section case__cta">
+      <div class="contact">
+        <div style="grid-column: 1 / -1">
+          <h3><span data-l="pt">Quer ver mais projetos?</span><span data-l="en">Want to see more projects?</span></h3>
+          <div class="contact__links">
+            <a href="index.html#projetos" class="btn btn--primary"><span data-l="pt">Ver todos os projetos</span><span data-l="en">See all projects</span></a>
+            <a href="index.html#contato" class="btn btn--ghost"><span data-l="pt">Falar comigo</span><span data-l="en">Get in touch</span></a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer__inner">
+      <a href="index.html" class="nav__logo">gabriel<span>.dev</span></a>
+      <p class="mono">© <span id="year"></span> Gabriel</p>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      var raiz = document.documentElement;
+      var salvar = function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} };
+      var langBtn = document.getElementById("langToggle");
+      var atualizar = function () {
+        langBtn.textContent = raiz.dataset.lang === "pt" ? "EN" : "PT";
+        document.title = raiz.dataset.lang === "pt" ? "GESISTEC · Estudo de caso · Gabriel" : "GESISTEC · Case study · Gabriel";
+      };
+      langBtn.addEventListener("click", function () {
+        raiz.dataset.lang = raiz.dataset.lang === "pt" ? "en" : "pt";
+        raiz.lang = raiz.dataset.lang === "pt" ? "pt-BR" : "en";
+        salvar("idioma", raiz.dataset.lang);
+        atualizar();
+      });
+      document.getElementById("themeToggle").addEventListener("click", function () {
+        raiz.dataset.theme = raiz.dataset.theme === "light" ? "dark" : "light";
+        salvar("tema", raiz.dataset.theme);
+      });
+      window.addEventListener("scroll", function () {
+        document.getElementById("nav").classList.toggle("scrolled", scrollY > 30);
+      }, { passive: true });
+      document.getElementById("year").textContent = new Date().getFullYear();
+      atualizar();
+    })();
+  </script>
+</body>
+</html>

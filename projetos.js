@@ -7,6 +7,10 @@
      A primeira vira a capa; com 2+ aparece uma galeria no modal.
      Sem imagens, gera capa automática.
    - repo / demo: coloque os links quando tiver ("" esconde o botão)
+   - jogavel: true + demo preenchido mostra o botão "Jogar aqui" (abre a demo dentro do modal)
+   - preview: vídeo curto (.mp4/.webm) ou .gif que toca ao passar o mouse no card
+     (ex: preview: "img/rabisco.mp4" — ideal: 5 a 10 s, sem som, até ~2 MB)
+   - caso: página de estudo de caso (ex: "gesistec.html")
    - en: tradução para a versão em inglês do site
    ========================================================= */
 
@@ -45,26 +49,29 @@ const PROJETOS = [
     contexto: "Acadêmico",
     destaque: true,
     cor: "#f97316",
-    resumo: "Sistema web de abertura e acompanhamento de chamados (help desk).",
-    descricao: "Sistema de tickets com abertura, interação e acompanhamento de chamados. Corrigi a persistência dos campos de descrição e migrei o back-end de Node.js/Express para PHP para hospedar no InfinityFree.",
+    resumo: "Help desk web com perfis de admin, colaborador e cliente, API em PHP e deploy automático.",
+    descricao: "Sistema de chamados com abertura, conversa e acompanhamento de tickets para várias empresas. Corrigi a persistência dos campos de descrição, migrei o back-end de Node.js/Express para uma API em PHP para hospedar no InfinityFree e adicionei recuperação de senha, limite de tentativas e deploy automático.",
     destaques: [
-      "Fluxo completo de chamados e interações",
-      "Correção de bugs de persistência no back-end e front-end",
-      "Migração de Node.js/Express para PHP",
-      "Deploy em hospedagem gratuita (InfinityFree)"
+      "Três perfis (admin, colaborador e cliente) atendendo várias empresas",
+      "API REST em PHP com sessão por token salvo como hash SHA-256",
+      "Recuperação de senha por e-mail e limite de tentativas contra força bruta",
+      "Histórico de status e prioridade dentro da conversa do chamado",
+      "Deploy automático com GitHub Actions + FTP no InfinityFree"
     ],
     en: {
-      resumo: "Web help desk system for opening and tracking support tickets.",
-      descricao: "Ticketing system for opening, discussing and tracking support requests. I fixed persistence of the description fields and migrated the back-end from Node.js/Express to PHP to host it on InfinityFree.",
+      resumo: "Web help desk with admin, staff and customer roles, a PHP API and automated deploys.",
+      descricao: "Ticketing system for opening, discussing and tracking support requests across multiple companies. I fixed persistence of the description fields, migrated the back-end from Node.js/Express to a PHP API to host it on InfinityFree, and added password recovery, rate limiting and automated deployment.",
       destaques: [
-        "Complete ticket and reply workflow",
-        "Fixed persistence bugs on back-end and front-end",
-        "Migration from Node.js/Express to PHP",
-        "Deployed on free hosting (InfinityFree)"
+        "Three roles (admin, staff and customer) serving multiple companies",
+        "PHP REST API with session tokens stored as SHA-256 hashes",
+        "Password recovery by email and rate limiting against brute force",
+        "Status and priority history shown inside the ticket thread",
+        "Automated deploys with GitHub Actions + FTP to InfinityFree"
       ]
     },
-    tecnologias: ["PHP", "Node.js", "Express", "JavaScript", "MySQL"],
-    imagens: [], repo: "", demo: ""
+    tecnologias: ["PHP", "MySQL", "JavaScript", "GitHub Actions", "PHPMailer", "Node.js"],
+    imagens: ["img/gesistec-1.jpg", "img/gesistec-2.jpg", "img/gesistec-3.jpg"], repo: "", demo: "",
+    caso: "gesistec.html"
   },
   {
     id: "regime-escolar",
@@ -91,7 +98,7 @@ const PROJETOS = [
       ]
     },
     tecnologias: ["HTML", "CSS", "JavaScript", "localStorage"],
-    imagens: [], repo: "", demo: ""
+    imagens: ["img/regime-escolar-1.jpg"], repo: "", demo: ""
   },
   {
     id: "crud-clientes",
@@ -141,7 +148,7 @@ const PROJETOS = [
       ]
     },
     tecnologias: ["PHP", "MySQL", "HTML", "CSS"],
-    imagens: [], repo: "", demo: ""
+    imagens: [], repo: "https://github.com/Furlani18/Mini_Sistema", demo: ""
   },
   {
     id: "prazo",
@@ -166,7 +173,7 @@ const PROJETOS = [
       ]
     },
     tecnologias: ["HTML", "CSS", "JavaScript", "localStorage"],
-    imagens: [], repo: "", demo: ""
+    imagens: ["img/prazo-1.jpg"], repo: "", demo: ""
   },
   {
     id: "vertice",
@@ -216,7 +223,7 @@ const PROJETOS = [
       ]
     },
     tecnologias: ["React", "TypeScript", "JavaScript", "CSS"],
-    imagens: [], repo: "", demo: ""
+    imagens: ["img/autoelite-1.jpg"], repo: "https://github.com/Furlani18/Auto-Elite", demo: ""
   },
   {
     id: "autovenda",
@@ -292,7 +299,7 @@ const PROJETOS = [
       ]
     },
     tecnologias: ["HTML", "CSS", "JavaScript", "localStorage"],
-    imagens: [], repo: "", demo: ""
+    imagens: ["img/futstats-1.jpg"], repo: "", demo: ""
   },
   {
     id: "esporte-total",
@@ -368,7 +375,7 @@ const PROJETOS = [
       ]
     },
     tecnologias: ["Node.js", "Socket.io", "JavaScript", "JSON"],
-    imagens: [], repo: "", demo: ""
+    imagens: [], repo: "", demo: "", jogavel: true
   },
   {
     id: "academia-tycoon",
@@ -395,7 +402,7 @@ const PROJETOS = [
       ]
     },
     tecnologias: ["HTML", "CSS", "JavaScript", "3D"],
-    imagens: [], repo: "", demo: ""
+    imagens: [], repo: "", demo: "", jogavel: true
   },
   {
     id: "rabisco",
@@ -420,6 +427,6 @@ const PROJETOS = [
       ]
     },
     tecnologias: ["HTML", "CSS", "JavaScript", "Canvas"],
-    imagens: [], repo: "", demo: ""
+    imagens: [], repo: "", demo: "", jogavel: true
   }
 ];

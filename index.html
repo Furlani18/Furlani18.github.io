@@ -37,7 +37,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=4">
+  <link rel="stylesheet" href="style.css?v=5">
 </head>
 <body>
 
@@ -56,6 +56,7 @@
         <a href="#contato" data-i18n="nav.contato">Contato</a>
       </nav>
       <div class="nav__tools">
+        <button class="icon-btn mono term-btn" id="termOpen" data-i18n-aria="term.abrir" aria-label="Abrir terminal (Ctrl+K)" title="Ctrl + K">&gt;_</button>
         <button class="icon-btn mono" id="langToggle" data-i18n-aria="lang.switch" aria-label="Switch to English">EN</button>
         <button class="icon-btn" id="themeToggle" aria-label="Alternar tema">
           <svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg>
@@ -172,10 +173,19 @@
     <div class="stack" id="stackGrid"></div>
   </section>
 
+  <!-- GITHUB (dados ao vivo da API) -->
+  <section class="section" id="github">
+    <div class="section__head">
+      <span class="mono section__num">05</span>
+      <h2 data-i18n="gh.titulo">GitHub</h2>
+    </div>
+    <div class="gh reveal" id="ghBox"></div>
+  </section>
+
   <!-- CONTATO -->
   <section class="section" id="contato">
     <div class="section__head">
-      <span class="mono section__num">05</span>
+      <span class="mono section__num">06</span>
       <h2 data-i18n="contato.titulo">Contato</h2>
     </div>
     <div class="contact reveal">
@@ -219,6 +229,7 @@
       <div>
         <a href="#inicio" class="nav__logo">gabriel<span>.dev</span></a>
         <p class="mono">© <span id="year"></span> Gabriel · <span data-i18n="footer">feito com HTML, CSS e JS puro</span></p>
+        <p class="mono footer__hint" data-i18n="term.dica">Dica: pressione Ctrl + K para abrir o terminal</p>
       </div>
       <nav class="footer__links">
         <a href="#" target="_blank" rel="noopener" id="footGithub">GitHub</a>
@@ -227,6 +238,23 @@
       </nav>
     </div>
   </footer>
+
+  <!-- TERMINAL (Ctrl+K) -->
+  <div class="term" id="term" hidden>
+    <div class="term__backdrop" data-term-close></div>
+    <div class="term__box" role="dialog" aria-modal="true" aria-label="Terminal">
+      <div class="term__bar">
+        <span class="editor__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span class="mono">gabriel@portfolio: ~</span>
+        <button class="term__close" data-term-close data-i18n-aria="modal.fechar" aria-label="Fechar">×</button>
+      </div>
+      <div class="term__out mono" id="termOut" aria-live="polite"></div>
+      <form class="term__line mono" id="termForm" autocomplete="off">
+        <label for="termIn" class="term__prompt">gabriel@portfolio:~$</label>
+        <input id="termIn" type="text" spellcheck="false" autocapitalize="off">
+      </form>
+    </div>
+  </div>
 
   <!-- MODAL -->
   <div class="modal" id="modal" aria-hidden="true">
@@ -252,9 +280,10 @@
     </div>
   </div>
 
-  <script src="config.js?v=4"></script>
-  <script src="i18n.js?v=4"></script>
-  <script src="projetos.js?v=4"></script>
-  <script src="script.js?v=4"></script>
+  <script src="config.js?v=5"></script>
+  <script src="i18n.js?v=5"></script>
+  <script src="projetos.js?v=5"></script>
+  <script src="script.js?v=5"></script>
+  <script src="extras.js?v=5"></script>
 </body>
 </html>
