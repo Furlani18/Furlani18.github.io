@@ -49,6 +49,7 @@ function configurarIdioma() {
     idioma = idioma === "pt" ? "en" : "pt";
     salvarPref("idioma", idioma);
     aplicarIdioma();
+    renderHero();
     renderProjetos();
     renderTrajetoria();
     renderStack();
@@ -146,9 +147,23 @@ function cardHTML(pr, i, destaque = false) {
           ${pr.tecnologias.slice(0, 4).map(tec => `<span class="tag">${tec}</span>`).join("")}
           ${pr.tecnologias.length > 4 ? `<span class="tag">+${pr.tecnologias.length - 4}</span>` : ""}
         </div>
+        <span class="card__more mono">${t("card.mais")} <span aria-hidden="true">→</span></span>
       </div>
     </article>
   `;
+}
+
+/* ---------- Cards flutuantes do hero ---------- */
+function renderHero() {
+  $("#heroVisual").innerHTML = PROJETOS.filter(pr => pr.destaque).slice(0, 3).map((pr, i) => `
+    <button class="hcard hcard--${i + 1}" style="--c:${pr.cor}" data-open="${pr.id}" aria-label="${t("card.aria", pr.nome)}">
+      <span class="card__cover">${capaHTML(pr)}</span>
+      <span class="hcard__body">
+        <strong>${pr.nome}</strong>
+        <small class="mono">${t("cat." + pr.categoria)}</small>
+      </span>
+    </button>
+  `).join("");
 }
 
 function renderProjetos() {
@@ -217,10 +232,12 @@ function renderTrajetoria() {
 /* ---------- Stack ---------- */
 function renderStack() {
   const techs = todasTecnologias();
+  const maximo = techs[0][1];
   $("#stackGrid").innerHTML = techs.map(([nome, qtd]) => `
-    <button class="stack__item reveal" data-tech="${nome}" title="${t("stack.filtrar", nome)}">
+    <button class="stack__item reveal" data-tech="${nome}" title="${t("stack.filtrar", nome)}" style="--p:${qtd / maximo}">
       <span>${nome}</span>
       <small class="mono">${t("stack.count", qtd)}</small>
+      <i class="stack__bar" aria-hidden="true"></i>
     </button>
   `).join("");
 
@@ -360,11 +377,11 @@ function configurarModal() {
     if (card && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); abrirModal(card.dataset.id); }
   });
 
-  // Atalhos da trajetória
-  $("#timeline").addEventListener("click", e => {
-    const chip = e.target.closest("[data-open]");
-    if (chip) abrirModal(chip.dataset.open);
-  });
+  // Atalhos da trajetória e cards do hero
+  ["#timeline", "#heroVisual"].forEach(sel => $(sel).addEventListener("click", e => {
+    const alvo = e.target.closest("[data-open]");
+    if (alvo) abrirModal(alvo.dataset.open);
+  }));
 
   $$("[data-close]", modal).forEach(el => el.addEventListener("click", () => fecharModal()));
   $("#modalPrev").addEventListener("click", () => navegarModal(-1));
@@ -407,6 +424,10 @@ function configurarContato() {
   $("#linkGithub").hidden = !CONFIG.github;
   $("#linkLinkedin").href = CONFIG.linkedin;
   $("#linkLinkedin").hidden = !CONFIG.linkedin;
+  $("#footGithub").href = CONFIG.github;
+  $("#footGithub").hidden = !CONFIG.github;
+  $("#footLinkedin").href = CONFIG.linkedin;
+  $("#footLinkedin").hidden = !CONFIG.linkedin;
 
   $$(".js-cv").forEach(a => {
     a.hidden = !CONFIG.curriculo;
@@ -466,9 +487,26 @@ function configurarNav() {
     toggle.setAttribute("aria-expanded", aberto);
   };
 
-  window.addEventListener("scroll", () => nav.classList.toggle("scrolled", window.scrollY > 30));
+  const progresso = $("#progress");
+  const aoRolar = () => {
+    nav.classList.toggle("scrolled", window.scrollY > 30);
+    const total = document.documentElement.scrollHeight - innerHeight;
+    progresso.style.transform = `scaleX(${total > 0 ? scrollY / total : 0})`;
+  };
+  window.addEventListener("scroll", aoRolar, { passive: true });
+  aoRolar();
+
   toggle.addEventListener("click", () => abrirMenu(!links.classList.contains("open")));
   $$("a", links).forEach(a => a.addEventListener("click", () => abrirMenu(false)));
+
+  // Destaca no menu a seção que está na tela
+  const espiao = new IntersectionObserver(entries => {
+    entries.forEach(en => {
+      if (!en.isIntersecting) return;
+      $$("a", links).forEach(a => a.classList.toggle("active", a.getAttribute("href") === `#${en.target.id}`));
+    });
+  }, { rootMargin: "-45% 0px -50% 0px" });
+  $$("main section[id]").forEach(sec => espiao.observe(sec));
 }
 
 /* ---------- Animação ao rolar ---------- */
@@ -487,6 +525,7 @@ document.addEventListener("DOMContentLoaded", () => {
   $("#year").textContent = new Date().getFullYear();
   aplicarIdioma();
   iniciarDigitacao();
+  renderHero();
   renderProjetos();
   renderTrajetoria();
   renderStack();

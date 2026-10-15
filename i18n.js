@@ -18,6 +18,7 @@ const I18N = {
     "theme.dark": "Ativar tema escuro",
     "lang.switch": "Switch to English",
 
+    "hero.status": "Disponível para estágio",
     "hero.tag": "> olá, mundo_",
     "hero.title": 'Eu sou <span class="accent">Gabriel</span>,<br>e eu construo',
     "hero.words": ["sistemas.", "sites.", "jogos.", "APIs.", "bancos de dados."],
@@ -47,6 +48,7 @@ const I18N = {
     "busca": "Buscar por nome ou tecnologia...",
     "vazio": "Nenhum projeto encontrado.",
     "card.aria": nome => `Ver detalhes de ${nome}`,
+    "card.mais": "Ver detalhes",
 
     "cat.sistema": "Sistema",
     "cat.web": "Site",
@@ -84,6 +86,7 @@ const I18N = {
     "modal.foto": n => `Ver imagem ${n}`,
 
     "footer": "feito com HTML, CSS e JS puro",
+    "topo": "Voltar ao topo ↑",
 
     "contextos": {}
   },
@@ -101,6 +104,7 @@ const I18N = {
     "theme.dark": "Switch to dark theme",
     "lang.switch": "Mudar para português",
 
+    "hero.status": "Open to internships",
     "hero.tag": "> hello, world_",
     "hero.title": 'I\'m <span class="accent">Gabriel</span>,<br>and I build',
     "hero.words": ["systems.", "websites.", "games.", "APIs.", "databases."],
@@ -130,6 +134,7 @@ const I18N = {
     "busca": "Search by name or technology...",
     "vazio": "No projects found.",
     "card.aria": nome => `See details of ${nome}`,
+    "card.mais": "View details",
 
     "cat.sistema": "System",
     "cat.web": "Website",
@@ -167,6 +172,7 @@ const I18N = {
     "modal.foto": n => `Show image ${n}`,
 
     "footer": "built with plain HTML, CSS and JS",
+    "topo": "Back to top ↑",
 
     "contextos": {
       "Acadêmico": "Academic",

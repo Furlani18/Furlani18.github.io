@@ -42,6 +42,7 @@
 <body>
 
   <a href="#conteudo" class="skip" data-i18n="skip">Pular para o conteúdo</a>
+  <div class="progress" id="progress" aria-hidden="true"></div>
 
   <!-- NAVBAR -->
   <header class="nav" id="nav">
@@ -72,7 +73,10 @@
   <!-- HERO -->
   <section class="hero" id="inicio">
     <div class="hero__grid" aria-hidden="true"></div>
+    <div class="hero__glow" aria-hidden="true"></div>
+    <div class="hero__inner">
     <div class="hero__content">
+      <p class="hero__status mono"><span class="pulse" aria-hidden="true"></span><span data-i18n="hero.status">Disponível para estágio</span></p>
       <p class="hero__tag mono" data-i18n="hero.tag">&gt; olá, mundo_</p>
       <h1 class="hero__title">
         <span data-i18n-html="hero.title">Eu sou <span class="accent">Gabriel</span>,<br>e eu construo</span>
@@ -96,6 +100,9 @@
         <div><strong data-i18n="stats.semNum">4º</strong><span data-i18n="stats.sem">semestre ADS</span></div>
       </div>
     </div>
+    <div class="hero__visual" id="heroVisual"></div>
+    </div>
+    <a href="#sobre" class="hero__scroll mono" aria-hidden="true" tabindex="-1">scroll ↓</a>
   </section>
 
   <!-- SOBRE -->
@@ -111,6 +118,10 @@
         <p data-i18n-html="sobre.p3"></p>
       </div>
       <div class="about__card reveal">
+        <div class="editor__bar" aria-hidden="true">
+          <span class="editor__dots"><i></i><i></i><i></i></span>
+          <span class="editor__file mono">gabriel.js</span>
+        </div>
         <pre class="mono"><code data-i18n-html="sobre.code"></code></pre>
       </div>
     </div>
@@ -203,8 +214,18 @@
 
   </main>
 
-  <footer class="footer mono">
-    <p>© <span id="year"></span> Gabriel · <span data-i18n="footer">feito com HTML, CSS e JS puro</span></p>
+  <footer class="footer">
+    <div class="footer__inner">
+      <div>
+        <a href="#inicio" class="nav__logo">gabriel<span>.dev</span></a>
+        <p class="mono">© <span id="year"></span> Gabriel · <span data-i18n="footer">feito com HTML, CSS e JS puro</span></p>
+      </div>
+      <nav class="footer__links">
+        <a href="#" target="_blank" rel="noopener" id="footGithub">GitHub</a>
+        <a href="#" target="_blank" rel="noopener" id="footLinkedin">LinkedIn</a>
+        <a href="#inicio" data-i18n="topo">Voltar ao topo ↑</a>
+      </nav>
+    </div>
   </footer>
 
   <!-- MODAL -->
