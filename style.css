@@ -218,10 +218,20 @@ button { font: inherit; cursor: pointer; }
 .hcard__body { display: flex; justify-content: space-between; align-items: baseline; gap: .5rem; padding: .8rem 1rem; }
 .hcard__body strong { font-size: 1rem; }
 .hcard__body small { font-size: .68rem; text-transform: uppercase; letter-spacing: .05em; color: var(--c); }
-.hcard { width: min(240px, 46%); }
-.hcard--1 { top: 2%; left: 4%; rotate: -6deg; }
-.hcard--2 { top: 30%; right: 0; rotate: 5deg; animation-delay: -2.3s; z-index: 2; }
-.hcard--3 { bottom: 0; left: 16%; rotate: -1deg; animation-delay: -4.6s; }
+/* Card 1 = projeto principal: maior e na frente; os outros menores, atrás */
+.hcard { width: min(210px, 42%); opacity: .8; }
+.hcard:hover { opacity: 1; }
+.hcard--1 {
+  width: min(310px, 62%); opacity: 1; z-index: 3;
+  top: 16%; left: 6%; rotate: -3deg;
+  border-color: color-mix(in srgb, var(--c) 55%, var(--border));
+  box-shadow: 0 40px 80px -30px color-mix(in srgb, var(--c) 55%, transparent), 0 0 0 1px color-mix(in srgb, var(--c) 30%, transparent);
+}
+.hcard--1 .cover__mono { font-size: 4rem; }
+.hcard--1 .hcard__body { padding: 1rem 1.2rem; }
+.hcard--1 .hcard__body strong { font-size: 1.25rem; }
+.hcard--2 { top: 0; right: 0; rotate: 7deg; animation-delay: -2.3s; z-index: 1; }
+.hcard--3 { bottom: 0; right: 8%; rotate: -5deg; animation-delay: -4.6s; z-index: 2; }
 @keyframes flutuar { 50% { translate: 0 -14px; } }
 :root[data-theme="light"] .hcard { box-shadow: 0 30px 50px -30px rgba(20,23,28,.35); }
 :root[data-theme="light"] .hcard__body small { color: color-mix(in srgb, var(--c) 65%, #000); }
@@ -375,6 +385,35 @@ button { font: inherit; cursor: pointer; }
 .featured__title::before { content: "★ "; color: var(--accent); }
 .featured__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 1.4rem; }
 .card--featured { background: linear-gradient(180deg, color-mix(in srgb, var(--c) 7%, var(--surface)), var(--surface) 60%); }
+
+/* Projeto principal: ocupa a linha inteira, capa ao lado do texto */
+.card--main { border-color: color-mix(in srgb, var(--c) 60%, var(--border)); }
+.card--main .card__cover { aspect-ratio: 16 / 9; }
+.card--main .card__cover .cover__mono { font-size: clamp(5rem, 9vw, 8rem); }
+.card--main h3 { font-size: 2rem; letter-spacing: -.02em; }
+.card--main p { font-size: 1rem; flex: 0; }
+.card--main .badge { font-size: .78rem; padding: .4rem .9rem; }
+.card__list { list-style: none; display: flex; flex-direction: column; gap: .35rem; margin: .2rem 0 .4rem; font-size: .92rem; }
+.card__list li { position: relative; padding-left: 1.3rem; }
+.card__list li::before { content: "▹"; position: absolute; left: 0; color: var(--c); }
+@media (min-width: 900px) {
+  .featured__grid { grid-template-columns: 1fr 1fr; }
+  .card--main {
+    grid-column: 1 / -1; flex-direction: row;
+    background: linear-gradient(90deg, var(--surface) 40%, color-mix(in srgb, var(--c) 9%, var(--surface)));
+  }
+  .card--main .card__cover { flex: 0 0 50%; aspect-ratio: auto; min-height: 340px; }
+  .card--main .card__body { padding: 2.2rem 2.4rem; justify-content: center; gap: .8rem; }
+  .card--main .card__more { margin-top: auto; }
+
+  /* Os outros destaques ficam compactos, também na horizontal */
+  .card--featured:not(.card--main) { flex-direction: row; }
+  .card--featured:not(.card--main) .card__cover { flex: 0 0 38%; aspect-ratio: auto; min-height: 220px; }
+  .card--featured:not(.card--main) .cover__mono { font-size: 3rem; }
+  .card--featured:not(.card--main) h3 { font-size: 1.3rem; }
+  .card--featured:not(.card--main) .badge { top: .6rem; left: .6rem; }
+}
+:root[data-theme="light"] .card__list li::before { color: color-mix(in srgb, var(--c) 65%, #000); }
 .card--featured { border-color: color-mix(in srgb, var(--c) 45%, var(--border)); }
 .card--featured .card__cover { aspect-ratio: 16 / 10; }
 .card--featured .cover__mono { font-size: 4rem; }

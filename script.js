@@ -128,13 +128,17 @@ let filtroAtual = "todos";
 let busca = "";
 let listaAtual = PROJETOS;
 
-function cardHTML(pr, i, destaque = false) {
+// tipo: "" (grade normal) | "featured" (faixa de destaques) | "main" (projeto principal, card largo)
+function cardHTML(pr, i, tipo = "") {
+  const principal = tipo === "main";
+  const classes = tipo ? ` card--featured${principal ? " card--main" : ""}` : "";
+  const selo = principal ? t("proj.principal") : t("proj.badge");
   return `
-    <article class="card${destaque ? " card--featured" : ""}" style="--c:${pr.cor}; --d:${i * 50}ms"
+    <article class="card${classes}" style="--c:${pr.cor}; --d:${i * 50}ms"
       data-id="${pr.id}" tabindex="0" role="button" aria-haspopup="dialog" aria-label="${t("card.aria", pr.nome)}">
       <div class="card__cover">
         ${capaHTML(pr)}
-        ${destaque ? `<span class="badge mono">${t("proj.badge")}</span>` : ""}
+        ${tipo ? `<span class="badge mono">${selo}</span>` : ""}
       </div>
       <div class="card__body">
         <div class="card__meta mono">
@@ -142,7 +146,8 @@ function cardHTML(pr, i, destaque = false) {
           <span>${contextoDe(pr)}</span>
         </div>
         <h3>${pr.nome}</h3>
-        <p>${campo(pr, "resumo")}</p>
+        <p>${campo(pr, principal ? "descricao" : "resumo")}</p>
+        ${principal ? `<ul class="card__list">${campo(pr, "destaques").slice(0, 3).map(d => `<li>${d}</li>`).join("")}</ul>` : ""}
         <div class="tags">
           ${pr.tecnologias.slice(0, 4).map(tec => `<span class="tag">${tec}</span>`).join("")}
           ${pr.tecnologias.length > 4 ? `<span class="tag">+${pr.tecnologias.length - 4}</span>` : ""}
@@ -157,7 +162,10 @@ function cardHTML(pr, i, destaque = false) {
 function renderHero() {
   $("#heroVisual").innerHTML = PROJETOS.filter(pr => pr.destaque).slice(0, 3).map((pr, i) => `
     <button class="hcard hcard--${i + 1}" style="--c:${pr.cor}" data-open="${pr.id}" aria-label="${t("card.aria", pr.nome)}">
-      <span class="card__cover">${capaHTML(pr)}</span>
+      <span class="card__cover">
+        ${capaHTML(pr)}
+        ${i === 0 ? `<span class="badge mono">${t("proj.principal")}</span>` : ""}
+      </span>
       <span class="hcard__body">
         <strong>${pr.nome}</strong>
         <small class="mono">${t("cat." + pr.categoria)}</small>
@@ -182,7 +190,7 @@ function renderProjetos() {
   const destaques = PROJETOS.filter(pr => pr.destaque);
   const mostrar = destaques.length > 0 && filtroAtual === "todos" && !termo;
   $("#featuredWrap").hidden = !mostrar;
-  $("#featuredGrid").innerHTML = mostrar ? destaques.map((pr, i) => cardHTML(pr, i, true)).join("") : "";
+  $("#featuredGrid").innerHTML = mostrar ? destaques.map((pr, i) => cardHTML(pr, i, i === 0 ? "main" : "featured")).join("") : "";
 }
 
 function definirFiltro(filtro) {
