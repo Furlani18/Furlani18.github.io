@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://seu-usuario.github.io/sitemap.xml
+Sitemap: https://furlani18.github.io/sitemap.xml
