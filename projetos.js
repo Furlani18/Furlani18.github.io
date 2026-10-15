@@ -72,7 +72,7 @@ const PROJETOS = [
       ]
     },
     tecnologias: ["PHP", "MySQL", "JavaScript", "GitHub Actions", "PHPMailer", "Node.js"],
-    imagens: ["img/gesistec-1.jpg", "img/gesistec-2.jpg", "img/gesistec-3.jpg"], repo: "", demo: "https://gesistec.infinityfree.me",
+    imagens: ["img/gesistec-1.jpg", "img/gesistec-solucoes.jpg", "img/gesistec-login.jpg"], repo: "", demo: "https://gesistec.infinityfree.me",
     caso: "gesistec.html",
     video: "img/gesistec-video.mp4", videoCapa: "img/gesistec-video-capa.jpg",
     preview: "img/gesistec-preview.mp4"
