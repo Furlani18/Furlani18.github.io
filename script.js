@@ -75,9 +75,32 @@ function configurarTema() {
 }
 
 /* ---------- Efeito de digitação ---------- */
+// Reserva a altura da palavra mais longa: sem isso o título ganha/perde uma
+// linha a cada palavra e o topo inteiro sobe e desce sozinho
+function reservarAlturaTitulo() {
+  const titulo = $(".hero__title");
+  const alvo = $("#typed");
+  const atual = alvo.textContent;
+  titulo.style.minHeight = "";
+  let maior = 0;
+  for (const palavra of t("hero.words")) {
+    alvo.textContent = palavra;
+    maior = Math.max(maior, titulo.offsetHeight);
+  }
+  alvo.textContent = atual;
+  titulo.style.minHeight = `${maior}px`;
+}
+
 function iniciarDigitacao() {
   const alvo = $("#typed");
   if (reduzMovimento) { alvo.textContent = t("hero.words")[0]; return; }
+
+  reservarAlturaTitulo();
+  document.fonts?.ready.then(reservarAlturaTitulo); // a fonte final pode mudar a largura
+  document.addEventListener("idiomamudou", reservarAlturaTitulo);
+  let espera;
+  addEventListener("resize", () => { clearTimeout(espera); espera = setTimeout(reservarAlturaTitulo, 150); });
+
   let p = 0, l = 0, apagando = false;
 
   function tick() {
