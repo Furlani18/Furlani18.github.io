@@ -237,8 +237,8 @@ const PROJETOS = [
     imagens: ["img/autoelite-1.jpg", "img/autoelite-catalogo.jpg", "img/autoelite-detalhe.jpg", "img/autoelite-avaliacao.jpg"],
     repo: "https://github.com/Furlani18/Auto-Elite", demo: "https://autoelite.infinityfree.me",
     caso: "autoelite.html",
-    video: "img/autoelite-video.mp4", videoCapa: "img/autoelite-video-capa.jpg",
-    preview: "img/autoelite-preview.mp4"
+    video: "img/autoelite-demo.mp4", videoCapa: "img/autoelite-demo-capa.jpg",
+    preview: "img/autoelite-demo-preview.mp4"
   },
   {
     id: "autovenda",
