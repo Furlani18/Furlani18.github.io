@@ -96,7 +96,7 @@ function renderGitHub() {
 }
 
 async function iniciarGitHub() {
-  if (!GH_USER) { $("#github").hidden = true; return; }
+  if (!GH_USER) { $("#github").hidden = true; numerarSecoes(); return; }
   $("#ghBox").innerHTML = `<p class="gh__msg mono">${t("gh.carregando")}</p>`;
   try {
     ghDados = await buscarGitHub();
@@ -176,7 +176,8 @@ const COMANDOS = {
   contact: () => escrever([
     `email&nbsp;&nbsp;&nbsp; <a href="mailto:${CONFIG.email}">${CONFIG.email}</a>`,
     CONFIG.github ? `github&nbsp;&nbsp; <a href="${CONFIG.github}" target="_blank" rel="noopener">${CONFIG.github.replace(/^https?:\/\//, "")}</a>` : "",
-    CONFIG.linkedin ? `linkedin <a href="${CONFIG.linkedin}" target="_blank" rel="noopener">${CONFIG.linkedin.replace(/^https?:\/\/(www\.)?/, "")}</a>` : ""
+    CONFIG.linkedin ? `linkedin <a href="${CONFIG.linkedin}" target="_blank" rel="noopener">${CONFIG.linkedin.replace(/^https?:\/\/(www\.)?/, "")}</a>` : "",
+    CONFIG.whatsapp ? `whatsapp <a href="https://wa.me/${CONFIG.whatsapp.replace(/\D/g, "")}" target="_blank" rel="noopener">wa.me/${CONFIG.whatsapp.replace(/\D/g, "")}</a>` : ""
   ].filter(Boolean).join("<br>")),
   github: () => { escrever(tt("abrindo GitHub...", "opening GitHub..."), "muted"); window.open(CONFIG.github, "_blank", "noopener"); },
   cv: () => {
@@ -259,7 +260,11 @@ function iniciarContador() {
 
 /* ---------- Init ---------- */
 document.addEventListener("DOMContentLoaded", () => {
-  iniciarGitHub();
+  // Só busca os dados do GitHub quando o visitante se aproxima da seção
+  const obsGh = new IntersectionObserver(entries => {
+    if (entries.some(en => en.isIntersecting)) { obsGh.disconnect(); iniciarGitHub(); }
+  }, { rootMargin: "600px 0px" });
+  obsGh.observe($("#github"));
   configurarTerminal();
   iniciarContador();
   document.addEventListener("idiomamudou", renderGitHub);

@@ -13,6 +13,25 @@
 
   <!-- Preview em redes sociais -->
   <link rel="canonical" href="https://furlani18.github.io/">
+
+  <!-- Dados estruturados: ajudam o Google a entender quem é você ao pesquisarem seu nome -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Gabriel Furlani",
+    "url": "https://furlani18.github.io/",
+    "image": "https://furlani18.github.io/og-image.png",
+    "jobTitle": "Estudante de Análise e Desenvolvimento de Sistemas",
+    "description": "Desenvolvedor web full stack em formação: sistemas, sites e jogos, do banco de dados à interface.",
+    "knowsAbout": ["PHP", "MySQL", "JavaScript", "HTML", "CSS", "Python", "Node.js", "React", "TypeScript", "GitHub Actions"],
+    "knowsLanguage": ["pt-BR", "en"],
+    "sameAs": [
+      "https://github.com/Furlani18",
+      "https://www.linkedin.com/in/gabriel-furlani-72727a30b/"
+    ]
+  }
+  </script>
   <meta property="og:type" content="website">
   <meta property="og:locale" content="pt_BR">
   <meta property="og:locale:alternate" content="en_US">
@@ -37,8 +56,9 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=8">
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap"></noscript>
+  <link rel="stylesheet" href="style.css?v=13">
 </head>
 <body>
 
@@ -82,7 +102,7 @@
       <p class="hero__tag mono" data-i18n="hero.tag">&gt; olá, mundo_</p>
       <h1 class="hero__title">
         <span data-i18n-html="hero.title">Eu sou <span class="accent">Gabriel</span>,<br>e eu construo</span>
-        <span class="typed" id="typed"></span><span class="cursor" aria-hidden="true">|</span>
+        <span class="typed-box"><span class="typed-cell"><span class="typed" id="typed"></span><span class="cursor" aria-hidden="true">|</span></span><span class="typed-ghosts" id="typedGhosts" aria-hidden="true"></span></span>
       </h1>
       <p class="hero__subtitle" data-i18n="hero.subtitle">
         Estudante de Análise e Desenvolvimento de Sistemas. Transformo ideias em sistemas,
@@ -186,6 +206,15 @@
     <div class="gh reveal" id="ghBox"></div>
   </section>
 
+  <!-- RECOMENDAÇÕES (aparece quando RECOMENDACOES em config.js tiver itens) -->
+  <section class="section" id="recomendacoes" hidden>
+    <div class="section__head">
+      <span class="mono section__num">06</span>
+      <h2 data-i18n="rec.titulo">Recomendações</h2>
+    </div>
+    <div class="recs" id="recsGrid"></div>
+  </section>
+
   <!-- CONTATO -->
   <section class="section" id="contato">
     <div class="section__head">
@@ -200,6 +229,10 @@
           <a href="#" class="btn btn--primary" id="linkEmail"></a>
           <a href="#" target="_blank" rel="noopener" class="btn btn--ghost" id="linkGithub">GitHub</a>
           <a href="#" target="_blank" rel="noopener" class="btn btn--ghost" id="linkLinkedin">LinkedIn</a>
+          <a href="#" target="_blank" rel="noopener" class="btn btn--ghost btn--zap" id="linkWhatsapp" hidden>
+            <svg class="btn__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11.6a8.4 8.4 0 0 1-12.4 7.4L3.5 20l1.1-4A8.4 8.4 0 1 1 20 11.6z"/><path d="M9 8.5c.3 1.9 1.6 4 3.9 5.4l1.2-1 1.7.9-.4 1.4c-3.4.4-7-3.1-7.4-6.3l1.4-.6.9 1.6z"/></svg>
+            WhatsApp
+          </a>
           <a href="#" class="btn btn--ghost js-cv" download hidden>
             <svg class="btn__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 20h16"/></svg>
             <span data-i18n="cv">Baixar currículo</span>
@@ -284,11 +317,11 @@
     </div>
   </div>
 
-  <script src="config.js?v=8"></script>
-  <script src="i18n.js?v=8"></script>
-  <script src="projetos.js?v=8"></script>
-  <script src="script.js?v=8"></script>
-  <script src="extras.js?v=8"></script>
-  <script src="animacoes.js?v=8"></script>
+  <script defer src="config.js?v=13"></script>
+  <script defer src="i18n.js?v=13"></script>
+  <script defer src="projetos.js?v=13"></script>
+  <script defer src="script.js?v=13"></script>
+  <script defer src="extras.js?v=13"></script>
+  <script defer src="animacoes.js?v=13"></script>
 </body>
 </html>

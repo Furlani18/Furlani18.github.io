@@ -102,7 +102,7 @@ const PROJETOS = [
       ]
     },
     tecnologias: ["HTML", "CSS", "JavaScript", "localStorage"],
-    imagens: ["img/regime-escolar-1.jpg"], repo: "", demo: ""
+    imagens: ["img/regime-escolar-1.jpg"], repo: "https://github.com/Furlani18/regime-escolar", demo: "https://furlani18.github.io/regime-escolar/"
   },
   {
     id: "crud-clientes",
@@ -177,7 +177,8 @@ const PROJETOS = [
       ]
     },
     tecnologias: ["HTML", "CSS", "JavaScript", "localStorage"],
-    imagens: ["img/prazo-1.jpg"], repo: "", demo: ""
+    imagens: ["img/prazo-1.jpg"], repo: "https://github.com/Furlani18/prazo", demo: "https://furlani18.github.io/prazo/",
+    preview: "img/prazo-preview.mp4"
   },
   {
     id: "vertice",
@@ -209,25 +210,32 @@ const PROJETOS = [
     nome: "AutoElite",
     categoria: "web",
     contexto: "Portfólio",
-    cor: "#f43f5e",
-    resumo: "Plataforma de venda de veículos em React/TypeScript e versão vanilla.",
-    descricao: "Plataforma de vendas de veículos construída em duas versões: componentes React com TypeScript e uma versão em JavaScript puro com login duplo para administrador e cliente.",
+    cor: "#c9a54a",
+    resumo: "Concessionária online em PHP + MySQL com catálogo filtrável, painel de leads e backup automático.",
+    descricao: "Plataforma de venda de veículos com catálogo filtrável por marca, tipo, combustível e preço, galeria de fotos por carro, favoritos e formulário de avaliação de usados. O painel administrativo gerencia estoque, fotos e leads e mostra os carros mais vistos. Back-end em PHP com MySQL, login com bloqueio por tentativas, recuperação de senha por e-mail, backup diário e deploy automático.",
     destaques: [
-      "Versão em React + TypeScript",
-      "Versão em JavaScript puro",
-      "Login separado para admin e cliente"
+      "Catálogo com filtros, galeria de fotos, favoritos e contador de visualizações",
+      "Painel admin: estoque, upload de fotos validado e funil de leads (novo → negociando → vendido)",
+      "Login com bloqueio após 5 tentativas e redefinição de senha por link que expira",
+      "Backup diário do banco enviado por e-mail, sem precisar de cron",
+      "Deploy automático com GitHub Actions + FTP no InfinityFree"
     ],
     en: {
-      resumo: "Car sales platform in React/TypeScript plus a vanilla JS version.",
-      descricao: "Car sales platform built in two versions: React components with TypeScript, and a plain JavaScript version with separate logins for admin and customer.",
+      resumo: "Online car dealership in PHP + MySQL with a filterable catalog, lead dashboard and automatic backups.",
+      descricao: "Car sales platform with a catalog filterable by brand, type, fuel and price, a photo gallery per car, favorites and a trade-in valuation form. The admin panel manages inventory, photos and leads and shows the most viewed cars. PHP back-end with MySQL, login lockout after failed attempts, password reset by email, daily backups and automated deployment.",
       destaques: [
-        "React + TypeScript version",
-        "Plain JavaScript version",
-        "Separate admin and customer login"
+        "Catalog with filters, photo gallery, favorites and view counter",
+        "Admin panel: inventory, validated photo uploads and a lead funnel (new → negotiating → sold)",
+        "Login lockout after 5 attempts and expiring password-reset links",
+        "Daily database backup sent by email, no cron required",
+        "Automated deploys with GitHub Actions + FTP to InfinityFree"
       ]
     },
-    tecnologias: ["React", "TypeScript", "JavaScript", "CSS"],
-    imagens: ["img/autoelite-1.jpg"], repo: "https://github.com/Furlani18/Auto-Elite", demo: ""
+    tecnologias: ["PHP", "MySQL", "JavaScript", "PHPMailer", "GitHub Actions", "HTML", "CSS"],
+    imagens: ["img/autoelite-1.jpg", "img/autoelite-catalogo.jpg", "img/autoelite-detalhe.jpg", "img/autoelite-avaliacao.jpg"],
+    repo: "https://github.com/Furlani18/Auto-Elite", demo: "https://autoelite.infinityfree.me",
+    caso: "autoelite.html",
+    preview: "img/autoelite-preview.mp4"
   },
   {
     id: "autovenda",
@@ -303,7 +311,8 @@ const PROJETOS = [
       ]
     },
     tecnologias: ["HTML", "CSS", "JavaScript", "localStorage"],
-    imagens: ["img/futstats-1.jpg"], repo: "", demo: ""
+    imagens: ["img/futstats-1.jpg"], repo: "https://github.com/Furlani18/futstats", demo: "https://furlani18.github.io/futstats/",
+    preview: "img/futstats-preview.mp4"
   },
   {
     id: "esporte-total",

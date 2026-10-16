@@ -21,8 +21,24 @@ const CONFIG = {
   // 1. Crie uma conta em https://www.goatcounter.com/signup
   // 2. Escolha um código (ex: "furlani") e cole aqui
   // 3. Veja as visitas em https://SEU-CODIGO.goatcounter.com
-  goatcounter: ""
+  goatcounter: "",
+
+  // WhatsApp: só números, com DDI e DDD (ex: "5516999998888"). "" esconde o botão
+  whatsapp: ""
 };
+
+/* ---------- Recomendações (depoimentos) ----------
+   Peça para professores, colegas ou clientes (dá pra pedir pelo LinkedIn).
+   Enquanto a lista estiver vazia, a seção fica escondida.
+   Exemplo de item:
+   {
+     nome: "Maria Silva",
+     cargo: { pt: "Professora de Banco de Dados", en: "Database professor" },
+     texto: { pt: "O Gabriel ...", en: "Gabriel ..." },
+     link: "https://linkedin.com/in/..."   // opcional
+   }
+*/
+const RECOMENDACOES = [];
 
 /* ---------- Trajetória (linha do tempo) ----------
    - periodo: texto livre (ex: "2025.1")
@@ -52,10 +68,10 @@ const TRAJETORIA = [
     periodo: "2026.1",
     titulo: { pt: "Sistemas de verdade", en: "Real-world systems" },
     texto: {
-      pt: "Primeiros sistemas com regras de negócio, perfis de acesso e deploy: gestão de canis, help desk e gestão escolar.",
-      en: "First systems with business rules, access roles and deployment: kennel management, help desk and school management."
+      pt: "Primeiros sistemas com regras de negócio, perfis de acesso e deploy: gestão de canis, help desk, concessionária e gestão escolar.",
+      en: "First systems with business rules, access roles and deployment: kennel management, help desk, car dealership and school management."
     },
-    projetos: ["canigest", "gesistec", "regime-escolar"]
+    projetos: ["canigest", "gesistec", "autoelite", "regime-escolar"]
   },
   {
     periodo: "2026.2",
@@ -65,6 +81,6 @@ const TRAJETORIA = [
       pt: "Estudando React com TypeScript, Node.js e tempo real com Socket.io — e criando jogos no navegador nas horas vagas.",
       en: "Studying React with TypeScript, Node.js and real-time with Socket.io — and building browser games in my spare time."
     },
-    projetos: ["autoelite", "draft-brasileirao"]
+    projetos: ["draft-brasileirao"]
   }
 ];

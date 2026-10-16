@@ -40,7 +40,10 @@ function aplicarIdioma() {
   $$("[data-i18n-placeholder]").forEach(el => (el.placeholder = t(el.dataset.i18nPlaceholder)));
   $$("[data-i18n-aria]").forEach(el => el.setAttribute("aria-label", t(el.dataset.i18nAria)));
   $("#langToggle").textContent = idioma === "pt" ? "EN" : "PT";
+  // O nome lido por leitores de tela precisa conter o texto visível ("EN")
+  $("#langToggle").setAttribute("aria-label", `${$("#langToggle").textContent} – ${t("lang.switch")}`);
   if (reduzMovimento) $("#typed").textContent = t("hero.words")[0];
+  preencherFantasmas();
   atualizarBotaoTema();
 }
 
@@ -53,6 +56,7 @@ function configurarIdioma() {
     renderProjetos();
     renderTrajetoria();
     renderStack();
+    renderRecomendacoes();
     if (modal.classList.contains("open")) preencherModal(modalId);
     document.dispatchEvent(new Event("idiomamudou"));
   });
@@ -75,31 +79,15 @@ function configurarTema() {
 }
 
 /* ---------- Efeito de digitação ---------- */
-// Reserva a altura da palavra mais longa: sem isso o título ganha/perde uma
-// linha a cada palavra e o topo inteiro sobe e desce sozinho
-function reservarAlturaTitulo() {
-  const titulo = $(".hero__title");
-  const alvo = $("#typed");
-  const atual = alvo.textContent;
-  titulo.style.minHeight = "";
-  let maior = 0;
-  for (const palavra of t("hero.words")) {
-    alvo.textContent = palavra;
-    maior = Math.max(maior, titulo.offsetHeight);
-  }
-  alvo.textContent = atual;
-  titulo.style.minHeight = `${maior}px`;
+// Todas as palavras ficam empilhadas, invisíveis, no mesmo lugar da palavra digitada:
+// o título sempre reserva o espaço da maior e não sobe/desce a cada troca (só CSS, sem medir)
+function preencherFantasmas() {
+  $("#typedGhosts").innerHTML = t("hero.words").map(p => `<span>${p}</span>`).join("");
 }
 
 function iniciarDigitacao() {
   const alvo = $("#typed");
   if (reduzMovimento) { alvo.textContent = t("hero.words")[0]; return; }
-
-  reservarAlturaTitulo();
-  document.fonts?.ready.then(reservarAlturaTitulo); // a fonte final pode mudar a largura
-  document.addEventListener("idiomamudou", reservarAlturaTitulo);
-  let espera;
-  addEventListener("resize", () => { clearTimeout(espera); espera = setTimeout(reservarAlturaTitulo, 150); });
 
   let p = 0, l = 0, apagando = false;
 
@@ -140,8 +128,14 @@ function imagensDe(pr) {
   return pr.imagem ? [pr.imagem] : [];
 }
 
-function capaHTML(pr, src = imagensDe(pr)[0]) {
-  if (src) return `<img src="${src}" alt="${pr.nome}" loading="lazy">`;
+// Os prints são guardados como .jpg em projetos.js; o site usa a versão WebP
+// (bem mais leve): -640 nas capas pequenas, tamanho cheio no modal
+function webp(src, grande = false) {
+  return /^img\/.+\.jpg$/.test(src) ? src.replace(/\.jpg$/, grande ? ".webp" : "-640.webp") : src;
+}
+
+function capaHTML(pr, src = imagensDe(pr)[0], grande = false) {
+  if (src) return `<img src="${webp(src, grande)}" alt="${pr.nome}" loading="lazy" decoding="async">`;
   const iniciais = pr.nome.replace(/[^A-Za-zÀ-ú ]/g, "").split(" ").filter(Boolean)
     .slice(0, 2).map(w => w[0]).join("").toUpperCase();
   return `<span class="cover__mono">${iniciais}</span>`;
@@ -177,8 +171,7 @@ function cardHTML(pr, i, tipo = "") {
   const classes = tipo ? ` card--featured${principal ? " card--main" : ""}` : "";
   const selo = principal ? t("proj.principal") : t("proj.badge");
   return `
-    <article class="card${classes}" style="--c:${pr.cor}; --d:${(i % 3) * 90}ms"
-      data-id="${pr.id}" tabindex="0" role="button" aria-haspopup="dialog" aria-label="${t("card.aria", pr.nome)}">
+    <article class="card${classes}" style="--c:${pr.cor}; --d:${(i % 3) * 90}ms" data-id="${pr.id}">
       <div class="card__cover">
         ${capaHTML(pr)}
         ${previewHTML(pr)}
@@ -189,7 +182,7 @@ function cardHTML(pr, i, tipo = "") {
           <span>${t("cat." + pr.categoria)}</span>
           <span>${contextoDe(pr)}</span>
         </div>
-        <h3>${pr.nome}</h3>
+        <h3><button class="card__abrir" aria-haspopup="dialog">${pr.nome}</button></h3>
         <p>${campo(pr, principal ? "descricao" : "resumo")}</p>
         ${principal ? `<ul class="card__list">${campo(pr, "destaques").slice(0, 3).map(d => `<li>${d}</li>`).join("")}</ul>` : ""}
         <div class="tags">
@@ -205,7 +198,7 @@ function cardHTML(pr, i, tipo = "") {
 /* ---------- Cards flutuantes do hero ---------- */
 function renderHero() {
   $("#heroVisual").innerHTML = PROJETOS.filter(pr => pr.destaque).slice(0, 3).map((pr, i) => `
-    <button class="hcard hcard--${i + 1}" style="--c:${pr.cor}" data-open="${pr.id}" aria-label="${t("card.aria", pr.nome)}">
+    <button class="hcard hcard--${i + 1}" style="--c:${pr.cor}" data-open="${pr.id}" aria-haspopup="dialog">
       <span class="card__cover">
         ${capaHTML(pr)}
         ${i === 0 ? `<span class="badge mono">${t("proj.principal")}</span>` : ""}
@@ -282,6 +275,28 @@ function renderTrajetoria() {
   observarReveal();
 }
 
+/* ---------- Recomendações ---------- */
+function renderRecomendacoes() {
+  const lista = typeof RECOMENDACOES !== "undefined" ? RECOMENDACOES : [];
+  $("#recomendacoes").hidden = !lista.length;
+  $("#recsGrid").innerHTML = lista.map((r, i) => {
+    const iniciais = r.nome.split(" ").filter(Boolean).slice(0, 2).map(p => p[0]).join("").toUpperCase();
+    const pessoa = `<span class="rec__avatar mono" aria-hidden="true">${iniciais}</span>
+      <span><strong>${r.nome}</strong><small>${r.cargo?.[idioma] || r.cargo?.pt || ""}</small></span>`;
+    return `
+      <figure class="rec reveal" style="--d:${(i % 3) * 90}ms">
+        <blockquote>${r.texto?.[idioma] || r.texto?.pt || ""}</blockquote>
+        <figcaption>${r.link ? `<a class="rec__quem" href="${r.link}" target="_blank" rel="noopener">${pessoa}</a>` : `<span class="rec__quem">${pessoa}</span>`}</figcaption>
+      </figure>`;
+  }).join("");
+  observarReveal();
+}
+
+// Numera as seções visíveis em sequência (01, 02...), mesmo quando alguma está escondida
+function numerarSecoes() {
+  $$("main .section:not([hidden]) .section__num").forEach((el, i) => (el.textContent = String(i + 1).padStart(2, "0")));
+}
+
 /* ---------- Stack ---------- */
 function renderStack() {
   const techs = todasTecnologias();
@@ -316,8 +331,8 @@ let midiasModal = [];
 
 function midiaHTML(pr, m) {
   if (!m) return capaHTML(pr);
-  if (m.video) return `<video src="${m.video}" ${m.capa ? `poster="${m.capa}"` : ""} controls playsinline preload="metadata"></video>`;
-  return capaHTML(pr, m.src);
+  if (m.video) return `<video src="${m.video}" ${m.capa ? `poster="${webp(m.capa, true)}"` : ""} controls playsinline preload="none"></video>`;
+  return capaHTML(pr, m.src, true);
 }
 
 function linkDoProjeto(id) {
@@ -343,7 +358,7 @@ function preencherModal(id) {
     ? midiasModal.map((m, i) => `
         <button class="thumb${i === 0 ? " active" : ""}${m.video ? " thumb--video" : ""}" data-i="${i}"
           aria-label="${m.video ? t("modal.video") : t("modal.foto", i + 1)}">
-          ${m.video && !m.capa ? "" : `<img src="${m.capa || m.src}" alt="" loading="lazy">`}
+          ${m.video && !m.capa ? "" : `<img src="${webp(m.capa || m.src)}" alt="" loading="lazy">`}
         </button>`).join("")
     : "";
 
@@ -394,7 +409,7 @@ function fecharModal(atualizarUrl = true) {
   // Devolve o foco ao card que abriu o modal (mesmo se ele foi re-renderizado)
   const alvo = focoAnterior && focoAnterior.isConnected
     ? focoAnterior
-    : $(`.card[data-id="${modalId}"]`);
+    : $(`.card[data-id="${modalId}"] .card__abrir`);
   if (alvo) alvo.focus({ preventScroll: true });
 }
 
@@ -447,13 +462,10 @@ function idDoHash() {
 
 function configurarModal() {
   // Cards (grade e destaques)
+  // O card inteiro é clicável; para teclado e leitores de tela, o botão no título faz o mesmo
   $("#projetos").addEventListener("click", e => {
     const card = e.target.closest(".card");
     if (card) abrirModal(card.dataset.id);
-  });
-  $("#projetos").addEventListener("keydown", e => {
-    const card = e.target.closest(".card");
-    if (card && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); abrirModal(card.dataset.id); }
   });
 
   // Atalhos da trajetória e cards do hero
@@ -508,6 +520,9 @@ function configurarContato() {
   $("#footGithub").hidden = !CONFIG.github;
   $("#footLinkedin").href = CONFIG.linkedin;
   $("#footLinkedin").hidden = !CONFIG.linkedin;
+  const zap = (CONFIG.whatsapp || "").replace(/\D/g, "");
+  $("#linkWhatsapp").hidden = !zap;
+  if (zap) $("#linkWhatsapp").href = `https://wa.me/${zap}`;
 
   $$(".js-cv").forEach(a => {
     a.hidden = !CONFIG.curriculo;
@@ -609,6 +624,8 @@ document.addEventListener("DOMContentLoaded", () => {
   renderProjetos();
   renderTrajetoria();
   renderStack();
+  renderRecomendacoes();
+  numerarSecoes();
   configurarIdioma();
   configurarTema();
   configurarFiltros();

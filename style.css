@@ -667,7 +667,7 @@ button { font: inherit; cursor: pointer; }
   flex: 1; min-width: 0; background: transparent; border: 0; outline: none;
   color: #fff; font: inherit; caret-color: #c6ff3d;
 }
-.footer__hint { opacity: .7; }
+.footer__hint { font-size: .72rem; }
 
 /* ---------- Reveal ---------- */
 .reveal { opacity: 0; transform: translateY(24px); transition: opacity .7s, transform .7s; }
@@ -876,4 +876,49 @@ button { font: inherit; cursor: pointer; }
   .anim .section__head::after { transform: translateY(-.4rem) scaleX(1); }
   .section__head h2, .section__num { opacity: 1 !important; transform: none !important; }
   .card::after, .hero::after, .timeline::after { display: none; }
+}
+
+/* ---------- Recomendações ---------- */
+.recs { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.4rem; }
+.rec {
+  display: flex; flex-direction: column; justify-content: space-between; gap: 1.4rem;
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 1.6rem; position: relative;
+}
+.rec::before { content: "“"; position: absolute; top: .2rem; right: 1.2rem; font-size: 4.5rem; line-height: 1; color: var(--accent); opacity: .35; font-family: Georgia, serif; }
+.rec blockquote { color: var(--text); font-size: 1rem; line-height: 1.7; }
+.rec__quem { display: flex; align-items: center; gap: .8rem; }
+.rec__quem span:last-child { display: flex; flex-direction: column; line-height: 1.35; }
+.rec__quem small { color: var(--muted); font-size: .8rem; }
+a.rec__quem:hover strong { color: var(--accent); }
+.rec__avatar {
+  width: 42px; height: 42px; border-radius: 50%; flex: none;
+  display: grid; place-items: center; font-size: .8rem; font-weight: 600;
+  background: color-mix(in srgb, var(--accent) 18%, var(--surface)); color: var(--accent);
+  border: 1px solid color-mix(in srgb, var(--accent) 40%, var(--border));
+}
+.btn--zap:hover { border-color: #25d366; color: #25d366; }
+@media print { #recomendacoes { break-inside: avoid; } }
+
+/* Botão de título dos cards (acessível por teclado); o card inteiro continua clicável */
+.card__abrir {
+  all: unset; cursor: pointer; font: inherit; color: inherit; letter-spacing: inherit;
+}
+.card__abrir:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 4px; }
+.card:has(.card__abrir:focus-visible) { transform: translateY(-6px); border-color: var(--c); box-shadow: 0 20px 40px -20px var(--c); }
+/* Palavra digitada no título: as palavras "fantasma" invisíveis ficam na mesma célula
+   e definem o tamanho, então o título não muda de altura a cada palavra */
+.typed-box { display: inline-grid; vertical-align: top; }
+.typed-box > *, .typed-ghosts > * { grid-area: 1 / 1; }
+.typed-ghosts { display: grid; visibility: hidden; pointer-events: none; user-select: none; }
+
+/* Desempenho: seções fora da tela não são calculadas nem pintadas até o visitante chegar perto.
+   O tamanho estimado evita a barra de rolagem "pular"; depois do 1º render o navegador lembra o real. */
+#sobre, #trajetoria, #stack, #github, #recomendacoes, #contato {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 900px;
+}
+#projetos { content-visibility: auto; contain-intrinsic-size: auto 3200px; }
+@media print {
+  #sobre, #projetos, #trajetoria, #stack, #github, #recomendacoes, #contato { content-visibility: visible; }
 }

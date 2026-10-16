@@ -140,8 +140,12 @@ function configurarTimeline() {
     });
   };
   addEventListener("scroll", () => (pedido ??= requestAnimationFrame(atualizar)), { passive: true });
-  document.addEventListener("idiomamudou", atualizar);
-  atualizar();
+  document.addEventListener("idiomamudou", () => (pedido ??= requestAnimationFrame(atualizar)));
+  // A trajetória fica longe do topo: mede só quando ela se aproxima da tela
+  // (medir na abertura forçava o layout da página inteira de uma vez)
+  new IntersectionObserver((entries, obs) => {
+    if (entries[0].isIntersecting) { atualizar(); obs.disconnect(); }
+  }, { rootMargin: "300px 0px" }).observe(linha);
 }
 
 /* ---------- Init ---------- */

@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AutoElite · Estudo de caso · Gabriel</title>
+  <meta name="description" content="Estudo de caso do AutoElite: concessionária online em PHP + MySQL com painel de leads, backup automático sem cron, login protegido e deploy automático.">
+  <meta name="theme-color" content="#0b0d10">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="canonical" href="https://furlani18.github.io/autoelite.html">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="AutoElite · Estudo de caso">
+  <meta property="og:description" content="Como construí uma concessionária online em PHP com painel de leads, backup sem cron e deploy automático.">
+  <meta property="og:url" content="https://furlani18.github.io/autoelite.html">
+  <meta property="og:image" content="https://furlani18.github.io/img/autoelite-1.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <script>
+    (function () {
+      var tema, lang;
+      try { tema = localStorage.getItem("tema"); lang = localStorage.getItem("idioma"); } catch (e) {}
+      if (!tema) tema = matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+      if (!lang) lang = (navigator.language || "pt").toLowerCase().indexOf("pt") === 0 ? "pt" : "en";
+      document.documentElement.dataset.theme = tema;
+      document.documentElement.dataset.lang = lang;
+      document.documentElement.lang = lang === "pt" ? "pt-BR" : "en";
+    })();
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap"></noscript>
+  <link rel="stylesheet" href="style.css?v=13">
+  <link rel="stylesheet" href="caso.css?v=13">
+</head>
+<body class="case" style="--c: #c9a54a">
+
+  <header class="nav" id="nav">
+    <a href="index.html" class="nav__logo">gabriel<span>.dev</span></a>
+    <div class="nav__tools">
+      <button class="icon-btn mono" id="langToggle" aria-label="Switch language">EN</button>
+      <button class="icon-btn" id="themeToggle" aria-label="Alternar tema">
+        <svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg>
+        <svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <section class="case__hero">
+      <a href="index.html#projeto=autoelite" class="case__back mono">
+        ← <span data-l="pt">Voltar ao portfólio</span><span data-l="en">Back to portfolio</span>
+      </a>
+      <p class="case__tag mono"><span data-l="pt">Estudo de caso</span><span data-l="en">Case study</span></p>
+      <h1>AutoElite</h1>
+      <p class="case__lead" data-l="pt">
+        Uma concessionária online de ponta a ponta: o visitante filtra o estoque, vê as fotos de cada carro e pede
+        contato ou uma avaliação do seu usado; a equipe gerencia o estoque e acompanha cada lead até a venda.
+        Tudo em PHP + MySQL, numa hospedagem gratuita.
+      </p>
+      <p class="case__lead" data-l="en">
+        An end-to-end online car dealership: visitors filter the inventory, browse each car's photos and ask for contact
+        or a trade-in valuation; the team manages inventory and follows every lead until the sale.
+        All in PHP + MySQL, on free hosting.
+      </p>
+      <div class="hero__actions" style="margin: 1.8rem 0 0">
+        <a href="https://autoelite.infinityfree.me" target="_blank" rel="noopener" class="btn btn--primary"><span data-l="pt">Ver o site online ↗</span><span data-l="en">See it live ↗</span></a>
+        <a href="https://github.com/Furlani18/Auto-Elite" target="_blank" rel="noopener" class="btn btn--ghost"><span data-l="pt">Código no GitHub</span><span data-l="en">Code on GitHub</span></a>
+      </div>
+
+      <dl class="case__meta">
+        <div><dt><span data-l="pt">Papel</span><span data-l="en">Role</span></dt><dd><span data-l="pt">Desenvolvimento full stack</span><span data-l="en">Full-stack development</span></dd></div>
+        <div><dt><span data-l="pt">Contexto</span><span data-l="en">Context</span></dt><dd><span data-l="pt">Projeto de portfólio</span><span data-l="en">Portfolio project</span></dd></div>
+        <div><dt>Stack</dt><dd>PHP · MySQL · JavaScript</dd></div>
+        <div><dt><span data-l="pt">Hospedagem</span><span data-l="en">Hosting</span></dt><dd>InfinityFree + GitHub Actions</dd></div>
+      </dl>
+    </section>
+
+    <figure class="case__shot">
+      <img src="img/autoelite-1.webp" alt="Página inicial do AutoElite" width="1280" height="720">
+      <figcaption><span data-l="pt">Página inicial da concessionária.</span><span data-l="en">Dealership home page.</span></figcaption>
+    </figure>
+
+    <!-- 01 DESAFIO -->
+    <section class="section">
+      <div class="section__head"><span class="mono section__num">01</span><h2><span data-l="pt">O desafio</span><span data-l="en">The challenge</span></h2></div>
+      <div class="case__body">
+        <p data-l="pt">
+          Uma concessionária vive de <strong>duas coisas</strong>: um estoque que dê vontade de ver e contatos que não se percam.
+          O site precisava apresentar bem cada carro, transformar visitas em <strong>leads</strong> e dar à equipe um painel
+          para cuidar do estoque e saber em que pé está cada negociação.
+        </p>
+        <p data-l="en">
+          A dealership lives on <strong>two things</strong>: inventory people want to browse, and leads that don't get lost.
+          The site had to showcase each car, turn visits into <strong>leads</strong> and give the team a dashboard to
+          manage inventory and know where every deal stands.
+        </p>
+        <p data-l="pt">
+          E tudo isso numa <strong>hospedagem gratuita</strong> (InfinityFree): só PHP e MySQL, sem tarefas agendadas (cron)
+          e sem acesso ao servidor.
+        </p>
+        <p data-l="en">
+          All of that on <strong>free hosting</strong> (InfinityFree): only PHP and MySQL, no scheduled tasks (cron)
+          and no server access.
+        </p>
+      </div>
+    </section>
+
+    <!-- 02 SOLUÇÃO -->
+    <section class="section">
+      <div class="section__head"><span class="mono section__num">02</span><h2><span data-l="pt">A solução</span><span data-l="en">The solution</span></h2></div>
+      <div class="case__body">
+        <ul class="case__list" data-l="pt">
+          <li><strong>Catálogo filtrável:</strong> busca, marca, tipo, combustível e faixa de preço, com ordenação e carregamento com “esqueletos”.</li>
+          <li><strong>Página de cada carro:</strong> galeria de fotos, ficha técnica, favoritos e um contador de visualizações.</li>
+          <li><strong>Captura de leads:</strong> contato sobre um carro e formulário “Avalie seu carro” para troca de usados, com aviso por e-mail para a equipe.</li>
+          <li><strong>Painel administrativo:</strong> dashboard com os carros mais vistos e leads recentes, CRUD do estoque com upload de várias fotos e um funil de leads (novo → negociando → vendido).</li>
+          <li><strong>Área do cliente</strong> com login próprio, separada do admin.</li>
+        </ul>
+        <ul class="case__list" data-l="en">
+          <li><strong>Filterable catalog:</strong> search, brand, type, fuel and price range, with sorting and skeleton loading.</li>
+          <li><strong>Car detail view:</strong> photo gallery, specs, favorites and a view counter.</li>
+          <li><strong>Lead capture:</strong> contact about a specific car and a “Value your car” trade-in form, with an email alert to the team.</li>
+          <li><strong>Admin panel:</strong> dashboard with most-viewed cars and recent leads, inventory CRUD with multi-photo upload and a lead funnel (new → negotiating → sold).</li>
+          <li><strong>Customer area</strong> with its own login, separate from admin.</li>
+        </ul>
+      </div>
+      <div class="case__duo">
+        <figure>
+          <img src="img/autoelite-catalogo.webp" alt="Catálogo do AutoElite com filtros" width="1280" height="720" loading="lazy">
+          <figcaption><span data-l="pt">Catálogo com filtros e ordenação.</span><span data-l="en">Catalog with filters and sorting.</span></figcaption>
+        </figure>
+        <figure>
+          <img src="img/autoelite-detalhe.webp" alt="Detalhes de um veículo no AutoElite" width="1280" height="720" loading="lazy">
+          <figcaption><span data-l="pt">Detalhes do veículo, com galeria e equipamentos.</span><span data-l="en">Vehicle details, with gallery and equipment.</span></figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- 03 ARQUITETURA -->
+    <section class="section">
+      <div class="section__head"><span class="mono section__num">03</span><h2><span data-l="pt">Arquitetura</span><span data-l="en">Architecture</span></h2></div>
+      <div class="case__body">
+        <p data-l="pt">Front-end em HTML, CSS e JavaScript puros, conversando por <code class="inline">fetch</code> com uma API em PHP de um arquivo por ação. As rotas administrativas exigem sessão de admin.</p>
+        <p data-l="en">Plain HTML, CSS and JavaScript front-end talking via <code class="inline">fetch</code> to a PHP API with one file per action. Admin routes require an admin session.</p>
+      </div>
+      <div class="arch" role="img" aria-label="Navegador chama a API PHP, que consulta o MySQL">
+        <div class="arch__box"><b><span data-l="pt">Navegador</span><span data-l="en">Browser</span></b><span><span data-l="pt">Site, área do cliente e painel admin</span><span data-l="en">Site, customer area and admin panel</span></span></div>
+        <div class="arch__arrow">JSON + <span data-l="pt">sessão</span><span data-l="en">session</span></div>
+        <div class="arch__box arch__box--c"><b>API PHP</b><span><code class="inline">api_*.php</code> + <code class="inline">exigirAdmin()</code></span></div>
+        <div class="arch__arrow">prepared statements</div>
+        <div class="arch__box"><b>MySQL</b><span><span data-l="pt">carros, fotos, clientes, leads</span><span data-l="en">cars, photos, customers, leads</span></span></div>
+        <div class="arch__extra">
+          <span class="tag">PHPMailer (SMTP)</span>
+          <span class="tag">uploads/carros</span>
+          <span class="tag">GitHub Actions → FTP → InfinityFree</span>
+          <span class="tag">.htaccess: <span data-l="pt">cabeçalhos de segurança</span><span data-l="en">security headers</span></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 04 DECISÕES -->
+    <section class="section">
+      <div class="section__head"><span class="mono section__num">04</span><h2><span data-l="pt">Desafios e decisões</span><span data-l="en">Challenges and decisions</span></h2></div>
+      <div class="decisions decisions--6">
+        <article class="decision">
+          <span class="decision__num">01</span>
+          <h3><span data-l="pt">Backup sem cron</span><span data-l="en">Backups without cron</span></h3>
+          <p data-l="pt">A hospedagem grátis não tem tarefas agendadas. Então o <b>próprio login do admin dispara o backup do dia</b>: gera um dump SQL das tabelas principais e envia por e-mail. Também há um botão de backup manual.</p>
+          <p data-l="en">Free hosting has no scheduled tasks. So <b>the admin's login triggers the daily backup</b>: it builds an SQL dump of the main tables and emails it. There's also a manual backup button.</p>
+        </article>
+        <article class="decision">
+          <span class="decision__num">02</span>
+          <h3><span data-l="pt">Login contra força bruta</span><span data-l="en">Brute-force protection</span></h3>
+          <p data-l="pt">Senhas com <b>password_hash</b>. Depois de <b>5 tentativas erradas</b>, a conta fica bloqueada por 15 minutos, e o controle fica no próprio cadastro do usuário.</p>
+          <p data-l="en">Passwords use <b>password_hash</b>. After <b>5 failed attempts</b> the account is locked for 15 minutes, tracked on the user record itself.</p>
+        </article>
+        <article class="decision">
+          <span class="decision__num">03</span>
+          <h3><span data-l="pt">Senha esquecida, sem vazar dados</span><span data-l="en">Password reset without leaks</span></h3>
+          <p data-l="pt">O link de redefinição usa um <b>token aleatório que expira em 1 hora</b>, e a resposta é sempre a mesma, exista o e-mail ou não. Assim ninguém descobre quem tem conta.</p>
+          <p data-l="en">The reset link uses a <b>random token that expires in 1 hour</b>, and the response is always the same whether or not the email exists, so nobody can find out who has an account.</p>
+        </article>
+        <article class="decision">
+          <span class="decision__num">04</span>
+          <h3><span data-l="pt">Upload que não confia na extensão</span><span data-l="en">Uploads that don't trust extensions</span></h3>
+          <p data-l="pt">As fotos dos carros são validadas pelo <b>tipo real do arquivo</b>, não pelo nome: só JPG, PNG, WEBP ou GIF, até 4 MB, salvas com <b>nome aleatório</b>.</p>
+          <p data-l="en">Car photos are validated by their <b>real file type</b>, not their name: only JPG, PNG, WEBP or GIF, up to 4 MB, saved under a <b>random name</b>.</p>
+        </article>
+        <article class="decision">
+          <span class="decision__num">05</span>
+          <h3><span data-l="pt">Leads sem spam</span><span data-l="en">Spam-free leads</span></h3>
+          <p data-l="pt">O formulário tem um <b>campo invisível (honeypot)</b> que só robôs preenchem: eles recebem um “sucesso” falso e nada é gravado. Lead real avisa a equipe por e-mail, e uma falha no envio não quebra a resposta ao cliente.</p>
+          <p data-l="en">The form has an <b>invisible honeypot field</b> only bots fill in: they get a fake “success” and nothing is saved. Real leads alert the team by email, and an email failure never breaks the customer's response.</p>
+        </article>
+        <article class="decision">
+          <span class="decision__num">06</span>
+          <h3><span data-l="pt">Deploy que não apaga segredos</span><span data-l="en">Deploys that keep secrets</span></h3>
+          <p data-l="pt">Cada push na <code class="inline">main</code> publica via <b>GitHub Actions + FTP</b>. O deploy nunca apaga arquivos do servidor, então o <code class="inline">config.php</code> com as credenciais fica só lá, fora do Git.</p>
+          <p data-l="en">Every push to <code class="inline">main</code> ships via <b>GitHub Actions + FTP</b>. The deploy never deletes server files, so <code class="inline">config.php</code> with the credentials lives only there, outside Git.</p>
+        </article>
+      </div>
+      <div class="case__duo">
+        <figure>
+          <img src="img/autoelite-avaliacao.webp" alt="Formulário de avaliação de veículo usado" width="1280" height="720" loading="lazy">
+          <figcaption><span data-l="pt">“Avalie seu carro”: o formulário que vira lead no painel.</span><span data-l="en">“Value your car”: the form that becomes a lead in the dashboard.</span></figcaption>
+        </figure>
+        <figure>
+          <img src="img/autoelite-diferenciais.webp" alt="Seção de diferenciais do AutoElite" width="1280" height="720" loading="lazy">
+          <figcaption><span data-l="pt">Seção de diferenciais.</span><span data-l="en">Value-proposition section.</span></figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- 05 APRENDIZADOS -->
+    <section class="section">
+      <div class="section__head"><span class="mono section__num">05</span><h2><span data-l="pt">O que aprendi</span><span data-l="en">What I learned</span></h2></div>
+      <div class="case__body">
+        <ul class="case__list" data-l="pt">
+          <li>Limitação de hospedagem pede criatividade: um evento que já acontece (o login do admin) pode substituir um cron.</li>
+          <li>Segurança mora nos detalhes: resposta genérica no “esqueci a senha”, tipo real do arquivo no upload, bloqueio por tentativas.</li>
+          <li>Um site de vendas é medido em leads: por isso o funil, o aviso por e-mail e o ranking dos carros mais vistos.</li>
+          <li>Deploy automático só é seguro quando você sabe exatamente o que ele pode apagar.</li>
+        </ul>
+        <ul class="case__list" data-l="en">
+          <li>Hosting limits call for creativity: an event that already happens (the admin login) can stand in for a cron job.</li>
+          <li>Security lives in the details: generic reset responses, real file types on upload, attempt-based lockouts.</li>
+          <li>A sales site is measured in leads, hence the funnel, the email alerts and the most-viewed ranking.</li>
+          <li>Automated deploys are only safe when you know exactly what they're allowed to delete.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section case__cta">
+      <div class="contact">
+        <div style="grid-column: 1 / -1">
+          <h3><span data-l="pt">Quer ver mais projetos?</span><span data-l="en">Want to see more projects?</span></h3>
+          <div class="contact__links">
+            <a href="index.html#projetos" class="btn btn--primary"><span data-l="pt">Ver todos os projetos</span><span data-l="en">See all projects</span></a>
+            <a href="gesistec.html" class="btn btn--ghost"><span data-l="pt">Estudo de caso: GESISTEC</span><span data-l="en">Case study: GESISTEC</span></a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer__inner">
+      <a href="index.html" class="nav__logo">gabriel<span>.dev</span></a>
+      <p class="mono">© <span id="year"></span> Gabriel</p>
+    </div>
+  </footer>
+
+  <script src="caso.js?v=13"></script>
+</body>
+</html>
