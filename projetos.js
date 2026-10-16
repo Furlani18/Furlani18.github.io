@@ -42,7 +42,9 @@ const PROJETOS = [
       ]
     },
     tecnologias: ["Python", "MySQL", "HTML", "CSS", "JavaScript"],
-    imagens: [], repo: "", demo: ""
+    imagens: ["img/canigest-1.jpg", "img/canigest-2.jpg", "img/canigest-3.jpg", "img/canigest-4.jpg"], repo: "", demo: "",
+    video: "img/canigest-video.mp4", videoCapa: "img/canigest-video-capa.jpg",
+    preview: "img/canigest-preview.mp4"
   },
   {
     id: "gesistec",
@@ -235,6 +237,7 @@ const PROJETOS = [
     imagens: ["img/autoelite-1.jpg", "img/autoelite-catalogo.jpg", "img/autoelite-detalhe.jpg", "img/autoelite-avaliacao.jpg"],
     repo: "https://github.com/Furlani18/Auto-Elite", demo: "https://autoelite.infinityfree.me",
     caso: "autoelite.html",
+    video: "img/autoelite-video.mp4", videoCapa: "img/autoelite-video-capa.jpg",
     preview: "img/autoelite-preview.mp4"
   },
   {
