@@ -24,7 +24,7 @@ const CONFIG = {
   goatcounter: "",
 
   // WhatsApp: só números, com DDI e DDD (ex: "5516999998888"). "" esconde o botão
-  whatsapp: ""
+  whatsapp: "5516997709612"
 };
 
 /* ---------- Recomendações (depoimentos) ----------
