@@ -761,3 +761,119 @@ button { font: inherit; cursor: pointer; }
   .contact a[href^="http"]::after { content: " — " attr(href); font-size: 9pt; color: var(--muted); }
   .footer { border: 0; padding: 1rem 0 0; }
 }
+
+/* =========================================================
+   ANIMAÇÕES
+   ========================================================= */
+
+/* Entrada do topo: elementos sobem em sequência */
+@keyframes subir { from { opacity: 0; transform: translateY(28px); } }
+@keyframes surgir { from { opacity: 0; transform: translateY(40px) scale(.94); } }
+@keyframes descerNav { from { opacity: 0; transform: translateY(-100%); } }
+.nav { animation: descerNav .7s cubic-bezier(.2,.7,.2,1) both; }
+.hero__content > * { animation: subir .9s cubic-bezier(.2,.7,.2,1) both; }
+.hero__content > :nth-child(1) { animation-delay: .1s; }
+.hero__content > :nth-child(2) { animation-delay: .2s; }
+.hero__content > :nth-child(3) { animation-delay: .3s; }
+.hero__content > :nth-child(4) { animation-delay: .45s; }
+.hero__content > :nth-child(5) { animation-delay: .55s; }
+.hero__content > :nth-child(6) { animation-delay: .65s; }
+.hero__visual { animation: surgir 1.2s .45s cubic-bezier(.2,.7,.2,1) both; }
+.hero__scroll { animation: subir .8s 1.1s both, descer 2.2s 1.9s ease-in-out infinite; }
+
+/* Paralaxe: cada card do topo anda numa profundidade diferente */
+.hcard { --prof: 16; transform: translate3d(calc(var(--mx, 0) * var(--prof) * 1px), calc(var(--my, 0) * var(--prof) * 1px), 0); transition: transform .5s cubic-bezier(.2,.7,.2,1), scale .3s, border-color .3s, box-shadow .3s, opacity .3s; }
+.hcard--1 { --prof: 26; }
+.hcard--2 { --prof: 14; }
+.hcard--3 { --prof: 36; }
+.hero__grid { transform: translate3d(calc(var(--mx, 0) * -10px), calc(var(--my, 0) * -10px), 0); transition: transform .8s cubic-bezier(.2,.7,.2,1); }
+.hero__glow { animation: respirar 8s ease-in-out infinite; }
+@keyframes respirar { 50% { transform: scale(1.12) translate(-30px, 20px); opacity: .7; } }
+
+/* Luz que segue o cursor no topo */
+.hero::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(420px circle at var(--gx, 50%) var(--gy, 50%), color-mix(in srgb, var(--accent) 9%, transparent), transparent 70%);
+  opacity: 0; transition: opacity .4s;
+}
+.hero.com-luz::after { opacity: 1; }
+
+/* Faixa infinita de tecnologias */
+.marquee {
+  overflow: hidden; border-block: 1px solid var(--border);
+  background: var(--bg-2); padding: 1.1rem 0;
+  mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+}
+.marquee__track { display: flex; width: max-content; animation: esteira 45s linear infinite; }
+.marquee:hover .marquee__track { animation-play-state: paused; }
+.marquee__track > div { display: flex; align-items: center; }
+.marquee span { font-family: var(--mono); font-size: 1.05rem; font-weight: 600; color: var(--muted); padding: 0 1.4rem; white-space: nowrap; transition: color .2s; }
+.marquee span:hover { color: var(--accent); }
+.marquee i { color: var(--accent); font-style: normal; font-size: .8rem; }
+@keyframes esteira { to { transform: translateX(-50%); } }
+
+/* Títulos de seção: linha se desenha da esquerda */
+.section__head h2, .section__num { transition: opacity .6s, transform .6s cubic-bezier(.2,.7,.2,1); }
+.anim .section__head:not(.visible) h2, .anim .section__head:not(.visible) .section__num { opacity: 0; transform: translateY(16px); }
+.anim .section__head::after { transform-origin: left; transform: translateY(-.4rem) scaleX(0); transition: transform 1.2s .15s cubic-bezier(.2,.7,.2,1); }
+.anim .section__head.visible::after { transform: translateY(-.4rem) scaleX(1); }
+
+/* Cards: entram em cascata só quando aparecem na tela */
+.card { position: relative; animation: cardIn .7s cubic-bezier(.2,.7,.2,1) both; animation-delay: var(--d); animation-play-state: paused; }
+.card.in { animation-play-state: running; }
+@keyframes cardIn { from { opacity: 0; transform: translateY(40px) scale(.97); } }
+.card.tilt { transition: transform .1s linear, border-color .3s, box-shadow .3s; }
+/* Reflexo de luz que acompanha o mouse */
+.card::after {
+  content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; z-index: 2;
+  background: radial-gradient(360px circle at var(--px, 50%) var(--py, 50%), rgba(255,255,255,.09), transparent 60%);
+  opacity: 0; transition: opacity .3s;
+}
+.card.tilt::after { opacity: 1; }
+:root[data-theme="light"] .card::after { background: radial-gradient(360px circle at var(--px, 50%) var(--py, 50%), rgba(255,255,255,.45), transparent 60%); }
+
+/* Itens com reveal entram com atraso individual (cascata) */
+.reveal { transition-delay: var(--d, 0s); }
+
+/* Botões magnéticos: volta suave ao soltar */
+.btn--primary, .icon-btn { transition: transform .35s cubic-bezier(.2,.7,.2,1), background .2s, border-color .2s, color .2s, box-shadow .2s; }
+.btn--primary.ima, .icon-btn.ima { transition: transform .12s linear, background .2s, border-color .2s, color .2s, box-shadow .2s; }
+
+/* Trajetória: linha se preenche conforme a rolagem */
+.timeline::before { background: var(--border); }
+.timeline::after {
+  content: ""; position: absolute; left: 6px; top: .5rem; width: 2px;
+  height: calc((100% - 1rem) * var(--prog, 0));
+  background: linear-gradient(var(--accent), color-mix(in srgb, var(--accent) 60%, transparent));
+  box-shadow: 0 0 12px var(--accent);
+  transition: height .15s linear;
+}
+.timeline__dot { z-index: 1; transition: background .4s, border-color .4s, box-shadow .4s, transform .4s; }
+.timeline__item.passou .timeline__dot { border-color: var(--accent); background: var(--bg); transform: scale(1.15); }
+.timeline__item.passou.is-now .timeline__dot { background: var(--accent); }
+
+/* Ícone do botão de currículo "pula" ao passar o mouse */
+.btn:hover .btn__icon { animation: pular .6s ease; }
+@keyframes pular { 40% { transform: translateY(3px); } }
+
+/* Selo de destaque com brilho passando */
+.badge { overflow: hidden; }
+.badge::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(110deg, transparent 30%, rgba(255,255,255,.55) 50%, transparent 70%);
+  transform: translateX(-120%); animation: brilho 3.5s 1.5s ease-in-out infinite;
+}
+@keyframes brilho { 30%, 100% { transform: translateX(120%); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .anim .section__head::after { transform: translateY(-.4rem) scaleX(1); }
+  .section__head h2, .section__num { opacity: 1 !important; transform: none !important; }
+  .hcard, .hero__grid { transform: none; }
+  .timeline::after { height: calc(100% - 1rem); }
+}
+@media print {
+  .marquee { display: none !important; }
+  .anim .section__head::after { transform: translateY(-.4rem) scaleX(1); }
+  .section__head h2, .section__num { opacity: 1 !important; transform: none !important; }
+  .card::after, .hero::after, .timeline::after { display: none; }
+}

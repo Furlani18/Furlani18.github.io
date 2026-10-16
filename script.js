@@ -154,7 +154,7 @@ function cardHTML(pr, i, tipo = "") {
   const classes = tipo ? ` card--featured${principal ? " card--main" : ""}` : "";
   const selo = principal ? t("proj.principal") : t("proj.badge");
   return `
-    <article class="card${classes}" style="--c:${pr.cor}; --d:${i * 50}ms"
+    <article class="card${classes}" style="--c:${pr.cor}; --d:${(i % 3) * 90}ms"
       data-id="${pr.id}" tabindex="0" role="button" aria-haspopup="dialog" aria-label="${t("card.aria", pr.nome)}">
       <div class="card__cover">
         ${capaHTML(pr)}
@@ -212,6 +212,7 @@ function renderProjetos() {
   const mostrar = destaques.length > 0 && filtroAtual === "todos" && !termo;
   $("#featuredWrap").hidden = !mostrar;
   $("#featuredGrid").innerHTML = mostrar ? destaques.map((pr, i) => cardHTML(pr, i, i === 0 ? "main" : "featured")).join("") : "";
+  document.dispatchEvent(new Event("cardsrenderizados")); // animacoes.js observa os cards novos
 }
 
 function definirFiltro(filtro) {
@@ -262,8 +263,8 @@ function renderTrajetoria() {
 function renderStack() {
   const techs = todasTecnologias();
   const maximo = techs[0][1];
-  $("#stackGrid").innerHTML = techs.map(([nome, qtd]) => `
-    <button class="stack__item reveal" data-tech="${nome}" title="${t("stack.filtrar", nome)}" style="--p:${qtd / maximo}">
+  $("#stackGrid").innerHTML = techs.map(([nome, qtd], i) => `
+    <button class="stack__item reveal" data-tech="${nome}" title="${t("stack.filtrar", nome)}" style="--p:${qtd / maximo}; --d:${(i % 6) * 70}ms">
       <span>${nome}</span>
       <small class="mono">${t("stack.count", qtd)}</small>
       <i class="stack__bar" aria-hidden="true"></i>
